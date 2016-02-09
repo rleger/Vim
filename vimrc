@@ -98,8 +98,10 @@ nmap U :redo<cr>
 nnoremap j gj
 nnoremap k gk
 
-nnoremap <leader>pi :PluginInstall<cr>
-nnoremap <leader>pu :PluginUpdate<cr>
+" Run Vundle plugin install/update
+nnoremap <leader>ip :PluginInstall<cr>
+nnoremap <leader>up :PluginUpdate<cr>
+nnoremap <leader>cp :PluginClean<cr>
 
 " Insert lines in normal mode w/ swiching to insert mode
 " Enter will insert a line below
