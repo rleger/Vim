@@ -424,7 +424,7 @@ augroup autosourcing
 augroup END
 
 " I don't want to pull up these folders/files when calling CtrlP
-set wildignore+=*/vendor/**,node_modules/*,public/*,.DS_Store
+set wildignore+=*/vendor/**,node_modules/*,public/*,.DS_Store,tags,tags.*
 
 " Powerline (Fancy thingy at bottom stuff)
 "let g:Powerline_symbols = 'fancy'
