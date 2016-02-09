@@ -29,7 +29,7 @@ set shiftwidth=4                " number of spaces to use for autoindenting
 set shiftround                  " use multiple of shiftwidth when indenting with '<' and '>'
 set backspace=indent,eol,start  " allow backspacing over everything in insert mode
 set autoindent                  " always set autoindenting on
-                                set copyindent                  " copy the previous indentation on autoindenting
+set copyindent                  " copy the previous indentation on autoindenting
 set ignorecase                  " ignore case when searching
 set smartcase                   " ignore case if search pattern is all lowercase,
 set visualbell                  " don't beep
@@ -65,19 +65,19 @@ set nofoldenable    " disable folding
 so ~/.vim/bundle/matchit/plugin/matchit.vim
 
 :command! InitTags execute ':silent! ! ctags -R --PHP-kinds=+cf -f tags.vendors vendor' | execute ':silent! ! ctags -R --PHP-kinds=+cf --exclude=vendor --exclude=node_modules --exclude=public'
-                                ":command! -nargs=1 Silent execute ':silent !'.<q-args> | execute ':redraw!'
+":command! -nargs=1 Silent execute ':silent !'.<q-args> | execute ':redraw!'
 
 "------------Custom filetypes ------------"
 
 augroup autosourcing
-	autocmd!	
+    autocmd!	
     " Vue
     autocmd BufNewFile,BufRead *.vue set ft=html | set ft=javacscript | set ft=vue
 
     " Blade
     autocmd BufNewFile,BufRead *.blade.php set ft=html | set ft=phtml | set ft=blade 
 augroup END
-                                "------------Mappings-----------"
+"------------Mappings-----------"
 " With a map leader it's possible to do extra key combinations
 " like <leader>w saves the current file
 let mapleader = ","
@@ -145,7 +145,7 @@ nnoremap È 10k
 imap jj <Esc>								
 
 "Auto change directory to match current file ,cd
-                                                                nnoremap ,cd :cd %:p:h<CR>:pwd<CR>
+nnoremap ,cd :cd %:p:h<CR>:pwd<CR>
 
 " Create/edit file in the current directory
 nmap :ed :edit %:p:h/
@@ -269,7 +269,7 @@ let g:user_emmet_leader_key='<C-e>'             " Redefine mapping
 let g:user_emmet_install_global = 0
 
 augroup autosourcing
-	autocmd!	
+    autocmd!	
     autocmd FileType html,css EmmetInstall
 augroup END
 "
@@ -287,9 +287,9 @@ let g:syntastic_check_on_wq = 0
 " Turn automatic syntastic off until I figure it out
 "
 let g:syntastic_mode_map = {
-\ "mode": "passive",
-\ "active_filetypes": [],
-\ "passive_filetypes": ["puppet"] }
+            \ "mode": "passive",
+            \ "active_filetypes": [],
+            \ "passive_filetypes": ["puppet"] }
 
 "
 "/ Gitgutter
@@ -323,7 +323,7 @@ map <leader>: <plug>NERDCommenterToggle
 "/ PHP Insert Use
 "
 augroup autosourcing
-	autocmd!	
+    autocmd!	
     autocmd FileType php inoremap <Leader>u <Esc>:call IPhpInsertUse()<CR>
     autocmd FileType php noremap <Leader>u :call PhpInsertUse()<CR>
 augroup END
@@ -395,8 +395,8 @@ nmap 75 :vertical resize 120<cr>
 " Automatically source the vimrc file on save
 
 augroup autosourcing
-	autocmd!	
-	autocmd BufWritePost .vimrc source %
+    autocmd!	
+    autocmd BufWritePost .vimrc source %
 augroup END
 
 " I don't want to pull up these folders/files when calling CtrlP
