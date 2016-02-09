@@ -154,7 +154,7 @@ nnoremap È 10k
 
 " Alternative to enter normal mode
 " Remap jj => to escape (enter normal mode) 
-imap jj <Esc>								
+inoremap jj <Esc>								
 
 "Auto change directory to match current file ,cd
 nnoremap ,cd :cd %:p:h<CR>:pwd<CR>
@@ -472,22 +472,25 @@ hi clear SignColumn
 
 "
 " -- Navigate
-"<.> Navigate to last insertion point
-"
-"<C-o> previous position
-"<C-i> next position
-"<C-w-o> Current buffer to fullscreen
-"
-"Ctags
-"alt-l to go to definition
-"alt-h to come back
+" <.> Navigate to last insertion point
+" 
+" <C-o> previous position
+" <C-i> next position
+" <C-w-o> Current buffer to fullscreen
+" 
+" -- Ctags
+" alt-l to go to definition
+" alt-h to come back
 
-" Insert
-"<C-n> Autocomplete (insert mode)
+" -- Normal
+" Enter to insert line bk after, shift enter to insert above
+
+" -- Insert
+" <C-n> Autocomplete (insert mode)
 "
-"vit Visual edit inside tag
+" vit Visual edit inside tag
 "
-" Multiple cursors
+" -- Multiple cursors
 " <C-d> Select next
 " <C-s> Select previous
 " <C-x> Skip
