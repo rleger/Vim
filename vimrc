@@ -64,11 +64,11 @@ set nofoldenable    " disable folding
 " Enable % navigation between opening/closing tags
 so ~/.vim/bundle/matchit/plugin/matchit.vim
 
-:command! InitTags execute ':silent! ! ctags -R --PHP-kinds=+cf -f tags.vendors vendor' | execute ':silent! ! ctags -R --PHP-kinds=+cf --exclude=vendor --exclude=node_modules --exclude=public'
-":command! -nargs=1 Silent execute ':silent !'.<q-args> | execute ':redraw!'
+
+
+
 
 "------------Custom filetypes ------------"
-
 augroup autosourcing
     autocmd!	
     " Vue
@@ -77,6 +77,11 @@ augroup autosourcing
     " Blade
     autocmd BufNewFile,BufRead *.blade.php set ft=html | set ft=phtml | set ft=blade 
 augroup END
+
+
+
+
+
 "------------Mappings-----------"
 " With a map leader it's possible to do extra key combinations
 " like <leader>w saves the current file
@@ -149,6 +154,16 @@ nnoremap ,cd :cd %:p:h<CR>:pwd<CR>
 
 " Create/edit file in the current directory
 nmap :ed :edit %:p:h/
+
+
+
+
+
+"------------General-----------"
+" Initialize tag files on laravel project creation
+" Will generate a tags file that ignores vendor/ node_modules/ and public/
+" Will generate a tags.vendor file with the vendor/ directory
+:command! InitTags execute ':silent! ! ctags -R --PHP-kinds=+cf -f tags.vendors vendor' | execute ':silent! ! ctags -R --PHP-kinds=+cf --exclude=vendor --exclude=node_modules --exclude=public'
 
 
 
