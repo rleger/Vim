@@ -101,6 +101,13 @@ nnoremap k gk
 nnoremap <leader>pi :PluginInstall<cr>
 nnoremap <leader>pu :PluginUpdate<cr>
 
+" Insert lines in normal mode w/ swiching to insert mode
+" Enter will insert a line below
+" Shift enter will insert a line above
+" Cursor will remain @ same position
+nmap <S-Enter> O<Esc>j
+nmap <CR> o<Esc>k
+
 " Map tab to indent in all modes
 nnoremap <Tab> >>_
 nnoremap <S-Tab> <<_
