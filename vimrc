@@ -438,12 +438,20 @@ augroup vimrc_autocmd
     autocmd BufWritePre *.php :%s/\s\+$//e
 augroup END
 
+
+
+
+
 "------------Projects-shortcuts-----------"
 command! StatSMUR :cd ~/Sites/StatSMUR<bar>:CtrlP<cr>
 command! MonUrologue :cd ~/Sites/mon-urologue<bar>:CtrlP<cr>
 command! Fidelio :cd ~/Sites/Fidelio<bar>:CtrlP<cr>
 command! LldAdmin :cd ~/Sites/lld-admin<bar>:CtrlP<cr>
 command! LldFront :cd ~/Sites/lld-front<bar>:CtrlP<cr>
+
+
+
+
 
 "-----------Sessions------------"
 let g:session_autoload = 0          " Session will not try to autoload
@@ -455,9 +463,6 @@ let g:session_persist_colors = 0    " Don't save color theme w session
 
 " Required after theme load to clear gitgutter background
 hi clear SignColumn
-
-
-
 
 
 
