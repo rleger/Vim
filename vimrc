@@ -41,12 +41,15 @@ set timeout timeoutlen=200 ttimeoutlen=100
 "set timeoutlen=1000             " Incease key sequence time for commands
 set foldmethod=indent
 set foldlevelstart=20
+" Set the foldcolumn bg to mach window bg
+hi foldcolumn guibg=bg
 
 " For performance boost
 set nocursorcolumn          " Don't show cursor column
 set nocursorline            " Don't highlight cursor line
 set norelativenumber        " Don't display cursor relative numbers
-syntax sync minlines=256
+"syntax sync minlines=250
+"syntax sync fromstart
 
 let g:enable_bold_font = 1      " Enable some font to be bolded
 
@@ -69,13 +72,15 @@ so ~/.vim/bundle/matchit/plugin/matchit.vim
 
 
 "------------Custom filetypes ------------"
+" Putting it in autogroup doesn't work
+" Vue
+autocmd BufNewFile,BufRead *.vue set filetype=vue | :syntax sync fromstart
+""autocmd BufNewFile,BufRead *.vue set ft=html | set ft=javacscript | set ft=vue
+
+" Blade
 augroup autosourcing
     autocmd!	
-    " Vue
-    autocmd BufNewFile,BufRead *.vue set ft=html | set ft=javacscript | set ft=vue
-
-    " Blade
-    autocmd BufNewFile,BufRead *.blade.php set ft=html | set ft=phtml | set ft=blade 
+    autocmd BufNewFile,BufRead *.blade.php set filetype=html | set filetype=phtml | set filetype=blade 
 augroup END
 
 
@@ -118,10 +123,10 @@ vnoremap <Tab> >gv
 vnoremap <S-Tab> <gv
 
 " Ctags navigation
-"alt-l to go to definition
-nnoremap ¬ <C-]>
-"alt-h to come back
-nnoremap Ì <C-T>
+"alt : to go to definition
+nnoremap ÷ <C-]>
+"alt ; to come back
+nnoremap … <C-T>
 
 " Toggle line numbers
 nmap <C-l><C-l> :set invnumber<CR>
@@ -148,11 +153,12 @@ vnoremap <C-j> :m '>+1<CR>gv=gv
 vnoremap <C-k> :m '<-2<CR>gv=gv
 
 " Multiple line move
+" ... Giving it up in favor of split movements
 " Ï = alt-j and È = alt-k
 " J will navigate down 10 lines (5J)
-nnoremap Ï 10j								
+"nnoremap Ï 10j								
 " K will navigate up 10 lines (5K)
-nnoremap È 10k								
+"nnoremap È 10k								
 
 " Alternative to enter normal mode
 " Remap jj => to escape (enter normal mode) 
@@ -172,11 +178,17 @@ nmap :ed :edit %:p:h/
 " Initialize tag files on laravel project creation
 " Will generate a tags file that ignores vendor/ node_modules/ and public/
 " Will generate a tags.vendor file with the vendor/ directory
-:command! InitTags execute ':silent! ! ctags -R --PHP-kinds=+cf -f tags.vendors vendor' | execute ':silent! ! ctags -R --PHP-kinds=+cf --exclude=vendor --exclude=node_modules --exclude=public'
+" Will not do it if we're in $HOME directory
+function! InitTags()
+    if getcwd() == $HOME
+        echoerr "You should not be generating tags for the home directory !!"
+    else
+        execute ':silent! ! ctags -R --PHP-kinds=+cf -f tags.vendors vendor' 
+        execute ':silent! ! ctags -R --PHP-kinds=+cf --exclude=vendor --exclude=node_modules --exclude=public'
+    endif
+endfunction
 
-
-
-
+:command! InitTags :call InitTags()
 
 "------------Plugins-----------"
 "
@@ -221,6 +233,7 @@ nmap <leader>bq :Bclose<cr>
 "
 let g:php_cs_fixer_level = "symfony"   
 let g:php_cs_fixer_config_file = '.php_cs'
+let g:php_cs_fixer_fixers_list = "align_double_arrow"
 nnoremap <silent><leader>pf :call PhpCsFixerFixFile()<CR>
 
 
@@ -238,6 +251,10 @@ set grepprg=ag
 let g:grep_cmd_opts = '--line-numbers --noheading'
 
 "
+"/ Ag plugin
+"
+let g:ag_prg='ag -S --nocolor --nogroup --column --ignore node_modules --ignore "./public/*" --ignore "./vendor/*"'
+"
 "/ Vim fugitive (git)
 "
 " Git status
@@ -247,7 +264,7 @@ nmap <leader>gc :Gcommit<cr>
 " Git read, save after
 nmap <leader>gr :Gread<bar>:w<cr>
 " Git quick commit 
-:nmap <leader>gq :windo !git add %<cr><bar>:Gcommit<cr>
+:nmap <leader>gq :silent windo !git add %<cr><bar>:silent Gcommit<cr>
 
 set diffopt+=vertical           " Force open diff in vertical split
 
@@ -292,6 +309,7 @@ let g:user_emmet_leader_key='<C-e>'             " Redefine mapping
 " Just for html and css
 let g:user_emmet_install_global = 0
 
+" Enable emmet on html and css
 augroup autosourcing
     autocmd!	
     autocmd FileType html,css EmmetInstall
@@ -376,6 +394,9 @@ set guioptions-=R
 set guioptions-=e                   " Add tab pages 
 
 
+" --- Theme modifications
+" Display vsplit bar with a color
+hi vertsplit guibg=#212D32 guifg=#212D32
 
 
 
@@ -395,15 +416,17 @@ set splitright
 nmap vs :vsplit<cr>
 nmap sp :split<cr>
 
-" Remap vertical split navigation
-"nmap <S-J> <C-W><C-J>						
-"nmap <S-K> <C-W><C-K>
-"nmap <S-H> <C-W><C-H>
-"nmap <S-L> <C-W><C-L>
-nmap <silent> <A-Up> :wincmd k<CR>
-nmap <silent> <A-Down> :wincmd j<CR>
-nmap <silent> <A-Left> :wincmd h<CR>
-nmap <silent> <A-Right> :wincmd l<CR>
+"Remap vertical split navigation
+"nmap <C-J> <C-W><C-J>						
+"nmap <C-k> <C-W><C-K>
+"nmap <C-m> <C-W><C-H>
+"nmap <C-l> <C-W><C-L>
+
+"Mapping with alt
+nmap <silent> È :wincmd k<CR>
+nmap <silent> Ï :wincmd j<CR>
+nmap <silent> Ì :wincmd h<CR>
+nmap <silent> ¬ :wincmd l<CR>
 
 "Resize vsplit
 nmap <C-v> :vertical resize +5<cr>
@@ -450,6 +473,7 @@ command! MonUrologue :cd ~/Sites/mon-urologue<bar>:CtrlP<cr>
 command! Fidelio :cd ~/Sites/Fidelio<bar>:CtrlP<cr>
 command! LldAdmin :cd ~/Sites/lld-admin<bar>:CtrlP<cr>
 command! LldFront :cd ~/Sites/lld-front<bar>:CtrlP<cr>
+command! TheseEJ :cd ~/Sites/TheseEJ<bar>:CtrlP<cr>
 
 
 
@@ -477,12 +501,12 @@ hi clear SignColumn
 " <.> Navigate to last insertion point
 " 
 " <C-o> previous position
-" <C-i> next position
+" <C-i> next position => is actually <tab>.. and I remap it !
 " <C-w-o> Current buffer to fullscreen
 " 
 " -- Ctags
-" alt-l to go to definition
-" alt-h to come back
+" alt-: to go to definition
+" alt-; to come back
 
 " -- Normal
 " Enter to insert line bk after, shift enter to insert above

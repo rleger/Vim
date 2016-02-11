@@ -40,7 +40,7 @@ Plugin 'jwalton512/vim-blade'           " Laravel blade syntax
 Plugin 'posva/vim-vue'                  " Vue (vueify) syntax
 Plugin 'hail2u/vim-css3-syntax'         " CSS3 syntax support
 Plugin 'wavded/vim-stylus'              " Stylus support for vim
-
+Plugin 'elzr/vim-json'                  " JSON
 " ---- Themes
 Plugin 'kristijanhusak/vim-hybrid-material'         " Material theme
 
