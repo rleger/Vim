@@ -1,0 +1,84 @@
+snippet <?
+<?php
+
+${0}
+endsnippet
+
+
+snippet use
+use ${1:Foo\Bar\Baz};
+${0}
+
+endsnippet
+
+
+snippet m
+${1:protected} function ${2:foo}()
+{
+	${0}
+}
+endsnippet
+
+
+snippet if
+if (${1:/* condition */}) {
+	${0}
+}
+endsnippet
+
+snippet switch
+switch ($${1:variable}) {
+case '${2:value}':
+	${3}
+	break;
+	${0}
+default:
+	${4}
+	break;
+}
+endsnippet
+
+
+snippet case
+case '${1:value}':
+${2}
+break;
+endsnippet
+
+
+snippet for
+for ($${2:i} = 0; $$2 < ${1:count}; $$2${3:++}) {
+	${0}
+}
+endsnippet
+
+
+snippet foreach
+foreach ($${1:variable} as $${2:value}) {
+	${0}
+}
+snippet try
+try {
+	${0}
+} catch (${1:Exception} $e) {
+}
+endsnippet
+
+
+snippet dd
+dd(${1});
+endsnippet
+
+
+snippet $
+$this->
+endsnippet
+
+
+# Start Docblock
+snippet /*
+/**
+ * ${0}
+*/
+endsnippet
+

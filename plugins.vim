@@ -30,9 +30,10 @@ Plugin 'craigemery/vim-autotag'         " Autotag
 Plugin 'rking/ag.vim'                   " Ag : global search
 Plugin 'skwp/greplace.vim'              " Search and replace
 " ----- Snippets
-Plugin 'MarcWeber/vim-addon-mw-utils'   " Vim snippet manager
-Plugin 'tomtom/tlib_vim'                " dependency to vim snippet manager
-Plugin 'garbas/vim-snipmate'            " dependency to vim snippet manager
+Plugin 'SirVer/ultisnips'
+"Plugin 'MarcWeber/vim-addon-mw-utils'   " Vim snippet manager
+"Plugin 'tomtom/tlib_vim'                " dependency to vim snippet manager
+"Plugin 'garbas/vim-snipmate'            " dependency to vim snippet manager
 "Plugin 'honza/vim-snippets'            " snippet samples
 
 " ---- Syntax highlight

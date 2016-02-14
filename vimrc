@@ -152,6 +152,10 @@ inoremap <C-k> <Esc>:m .-2<CR>==gi
 vnoremap <C-j> :m '>+1<CR>gv=gv
 vnoremap <C-k> :m '<-2<CR>gv=gv
 
+"Run tests on file
+nnoremap <leader>pu :! /Users/romainleger/.composer/vendor/bin/phpunit %<cr>
+nnoremap <leader>ps :! vendor/bin/phpspec run %<cr>
+
 " Multiple line move
 " ... Giving it up in favor of split movements
 " Ï = alt-j and È = alt-k
@@ -191,6 +195,16 @@ endfunction
 :command! InitTags :call InitTags()
 
 "------------Plugins-----------"
+"
+"/UltiSnip
+"
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-x>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
+
 "
 "/ CtrlP
 "
@@ -477,6 +491,13 @@ command! TheseEJ :cd ~/Sites/TheseEJ<bar>:CtrlP<cr>
 
 
 
+"----------Fast navigation in projects-------------"
+"Laravel routes
+nmap <leader><leader>r :e app/Http/routes.php<cr>
+"Laravel composer
+nmap <leader><leader>c :e composer.json<cr>
+"Vue routes
+nmap <leader><leader>rv :e resources/vue/routes.js<cr>          
 
 
 "-----------Sessions------------"
