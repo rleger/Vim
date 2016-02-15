@@ -196,6 +196,10 @@ endfunction
 :command! InitTags :call InitTags()
 
 "------------Plugins-----------"
+"/PHP Docblock
+let g:pdv_template_dir = $HOME ."/.vim/bundle/pdv/templates_snip"
+autocmd FileType php noremap <leader>db :call pdv#DocumentWithSnip()<CR>
+
 "
 "/UltiSnip
 

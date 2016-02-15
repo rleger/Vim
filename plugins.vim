@@ -29,7 +29,8 @@ Plugin 'tpope/vim-vinegar'              " File browser improvements
 Plugin 'craigemery/vim-autotag'         " Autotag
 Plugin 'rking/ag.vim'                   " Ag : global search
 Plugin 'skwp/greplace.vim'              " Search and replace
-
+Plugin 'tobyS/pdv'                      " PHP docblock
+Plugin 'tobyS/vmustache'                " Required by PHP docblock
 " ----- Snippets
 Plugin 'SirVer/ultisnips'
 "Plugin 'tomtom/tlib_vim'                " dependency to vim snippet manager
