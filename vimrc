@@ -249,17 +249,18 @@ nmap <leader>bq :Bclose<cr>
 "
 "/ PHP-CS-Fixer
 
-let g:php_cs_fixer_path = "/User/romainleger/.composer/vendor/bin/php-cs-fixer" " define the path to the php-cs-fixer.phar
-let g:php_cs_fixer_level = "symfony"              " which level ?
-let g:php_cs_fixer_config = "default"             " configuration
-let g:php_cs_fixer_php_path = "php"               " Path to PHP
-let g:php_cs_fixer_fixers_list = "align_double_arrow,linefeed,indentation"
-let g:php_cs_fixer_enable_default_mapping = 1     " Enable the mapping by default (<leader>pcd)
+"let g:php_cs_fixer_path = "/User/romainleger/.composer/vendor/bin/php-cs-fixer" " define the path to the php-cs-fixer.phar
+"let g:php_cs_fixer_level = "symfony"              " which level ?
+"let g:php_cs_fixer_config = "default"             " configuration
+"let g:php_cs_fixer_php_path = "php"               " Path to PHP
+"let g:php_cs_fixer_fixers_list = "align_double_arrow,linefeed,indentation"
+"let g:php_cs_fixer_enable_default_mapping = 1     " Enable the mapping by default (<leader>pcd)
 
 "Remap default to save before running (avoid losing unsaved changes)
 "nnoremap <silent><leader>pcf :w<bar>:call PhpCsFixerFixFile()<CR>
 "
 "Alerternative to php-cs-fixer plugin
+let g:php_cs_fixer_enable_default_mapping = 0 " disable default mapping
 nnoremap <silent><leader>pcf :w<bar>:! ~/.composer/vendor/bin/php-cs-fixer fix % --level=symfony --fixers=align_double_arrow<CR>
 
 "
@@ -301,6 +302,18 @@ function! IPhpInsertUse()
     call phpinsertuse()
     call feedkeys('a',  'n')
 endfunction
+
+autocmd FileType php inoremap <Leader>u <Esc>:call IPhpInsertUse()<CR>
+autocmd FileType php noremap <Leader>u :call PhpInsertUse()<CR>
+
+" Expand fully qualified class name
+function! IPhpExpandClass()
+    call PhpExpandClass()
+    call feedkeys('a', 'n')
+endfunction
+
+autocmd FileType php inoremap <Leader>e <Esc>:call IPhpExpandClass()<CR>
+autocmd FileType php noremap <Leader>e :call PhpExpandClass()<CR>
 
 "
 "/ Multiline
