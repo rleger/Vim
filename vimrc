@@ -1,10 +1,10 @@
-syntax enable
+so ~/.vim/plugins.vim           " Plugins
 
 filetype off                    " required
 filetype plugin on
 set nocompatible                " be iMproved, required
 
-so ~/.vim/plugins.vim           " Plugins
+syntax enable
 
 set wildmode=list:longest,full  " Show file suggestions on tab press
 set wildmenu                    " e.g. :e file<tab>
@@ -17,6 +17,7 @@ set linespace=15				" Macvim specific lineheight
 set noshowmode                  " Hide the default mode text (e.g. -- INSERT -- below the statusline)
 set laststatus=2                " Always show the statusline
 set nowrap                      " don't wrap lines
+set autoread                    " Automatically reload changed file
 "set textwidth=80
 "set textwidth=0 wrapmargin=0
 
@@ -116,11 +117,11 @@ nmap <S-Enter> O<Esc>j
 nmap <CR> o<Esc>k
 
 " Map tab to indent in all modes
-nnoremap <Tab> >>_
-nnoremap <S-Tab> <<_
-inoremap <S-Tab> <C-D>
-vnoremap <Tab> >gv
-vnoremap <S-Tab> <gv
+"nnoremap <Tab> >>_
+"nnoremap <S-Tab> <<_
+"inoremap <S-Tab> <C-D>
+"vnoremap <Tab> >gv
+"vnoremap <S-Tab> <gv
 
 " Ctags navigation
 "alt : to go to definition
@@ -197,13 +198,13 @@ endfunction
 "------------Plugins-----------"
 "
 "/UltiSnip
-"
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-x>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+                                         
 " If you want :UltiSnipsEdit to split your window.
-let g:UltiSnipsEditSplit="vertical"
+"let g:UltiSnipsEditSplit="vertical"
 
 "
 "/ CtrlP
@@ -233,6 +234,9 @@ nmap <leader>ct :tabclose<cr>
 
 " Open tabs
 map <leader>t :BuffergatorTabsToggle<cr>                     
+"Trying to see if commands are faster
+command! T :BuffergatorTabsToggle
+command! B :BuffergatorToggle
 
 "Toggle Buffergator (for whatever reason, putting this comment on the same
 "line will make Buffergator cycle through each buffer first...)
@@ -244,12 +248,19 @@ nmap <leader>bq :Bclose<cr>
 
 "
 "/ PHP-CS-Fixer
-"
-let g:php_cs_fixer_level = "symfony"   
-let g:php_cs_fixer_config_file = '.php_cs'
-let g:php_cs_fixer_fixers_list = "align_double_arrow"
-nnoremap <silent><leader>pf :call PhpCsFixerFixFile()<CR>
 
+let g:php_cs_fixer_path = "/User/romainleger/.composer/vendor/bin/php-cs-fixer" " define the path to the php-cs-fixer.phar
+let g:php_cs_fixer_level = "symfony"              " which level ?
+let g:php_cs_fixer_config = "default"             " configuration
+let g:php_cs_fixer_php_path = "php"               " Path to PHP
+let g:php_cs_fixer_fixers_list = "align_double_arrow,linefeed,indentation"
+let g:php_cs_fixer_enable_default_mapping = 1     " Enable the mapping by default (<leader>pcd)
+
+"Remap default to save before running (avoid losing unsaved changes)
+"nnoremap <silent><leader>pcf :w<bar>:call PhpCsFixerFixFile()<CR>
+"
+"Alerternative to php-cs-fixer plugin
+nnoremap <silent><leader>pcf :w<bar>:! ~/.composer/vendor/bin/php-cs-fixer fix % --level=symfony --fixers=align_double_arrow<CR>
 
 "
 "/ Dash integration
@@ -287,7 +298,7 @@ set diffopt+=vertical           " Force open diff in vertical split
 " Import class at the top (use)
 "
 function! IPhpInsertUse()
-    call PhpInsertUse()
+    call phpinsertuse()
     call feedkeys('a',  'n')
 endfunction
 
@@ -381,7 +392,7 @@ map <leader>: <plug>NERDCommenterToggle
 augroup autosourcing
     autocmd!	
     autocmd FileType php inoremap <Leader>u <Esc>:call IPhpInsertUse()<CR>
-    autocmd FileType php noremap <Leader>u :call PhpInsertUse()<CR>
+    autocmd FileType php noremap <Leader>u :call phpinsertuse()<CR>
 augroup END
 
 "
@@ -482,13 +493,15 @@ augroup END
 
 
 "------------Projects-shortcuts-----------"
-command! StatSMUR :cd ~/Sites/StatSMUR<bar>:CtrlP<cr>
-command! MonUrologue :cd ~/Sites/mon-urologue<bar>:CtrlP<cr>
-command! Fidelio :cd ~/Sites/Fidelio<bar>:CtrlP<cr>
-command! LldAdmin :cd ~/Sites/lld-admin<bar>:CtrlP<cr>
-command! LldFront :cd ~/Sites/lld-front<bar>:CtrlP<cr>
-command! TheseEJ :cd ~/Sites/TheseEJ<bar>:CtrlP<cr>
+command! StatSMUR :OpenSession StatSMUR
+command! Fidelio :OpenSession Fidelio
+command! MonUrologue :OpenSession MonUrologue
+command! LldAdmin :OpenSession LldAdmin
+command! LldFront :OpenSession LldFront
+command! TheseEJ :OpenSession TheseEJ
 
+"Without sessions
+"command! MonUrologue :cd ~/Sites/mon-urologue<bar>:CtrlP<cr>
 
 
 "----------Fast navigation in projects-------------"
@@ -501,11 +514,12 @@ nmap <leader><leader>rv :e resources/vue/routes.js<cr>
 
 
 "-----------Sessions------------"
-let g:session_autoload = 0          " Session will not try to autoload
-let g:session_lock_enabled = 0      " Disable sessions lock
-let g:session_command_aliases = 1   " Create convinient aliases
-let g:session_persist_colors = 0    " Don't save color theme w session
-
+let g:session_autoload = 'no'           " Session will not try to autoload
+let g:session_autosave = 'yes'          " Automatically save sessions
+let g:session_lock_enabled = 0          " Disable sessions lock
+let g:session_command_aliases = 1       " Create convinient aliases
+let g:session_persist_colors = 0        " Don't save color theme w session
+let g:session_persist_font = 0          " Don't save fonts
 
 
 " Required after theme load to clear gitgutter background
@@ -545,4 +559,5 @@ hi clear SignColumn
 "
 " ,pcf Php cs fixer (file)
 " ,pcd Php cs fixer (directory)
+"
 "
