@@ -1,6 +1,6 @@
 " ~/bin/dotfiles/vim/sessions/StatSMUR.vim:
 " Vim session script.
-" Created by session.vim 2.13.1 on 16 février 2016 at 11:31:42.
+" Created by session.vim 2.13.1 on 16 février 2016 at 15:42:28.
 " Open this file in Vim and run :source % to restore your session.
 
 set guioptions=gm
@@ -19,39 +19,22 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
   let s:wipebuf = bufnr('%')
 endif
 set shortmess=aoO
-badd +332 resources/vue/components/tags-input.vue
-badd +1 ~/.vimrc
-badd +49 app/Jobs/CreateNewIntervention.php
-badd +114 resources/vue/views/interventions/create.vue
-badd +1 resources/vue/components/typeahead.vue
-badd +71 app/IdHasher/Providers/Hashids.php
-badd +35 ~/bin/dotfiles/vim/plugins.vim
-badd +0 \[Vundle]\ Installer
+badd +52 app/Jobs/CreateNewIntervention.php
+badd +102 resources/vue/views/interventions/create/general.vue
+badd +1 resources/vue/views/interventions/create
+badd +34 resources/vue/views/interventions/create/patient.vue
+badd +48 resources/vue/views/interventions/create.vue
+badd +1 resources/vue/views/interventions
+badd +1 resources/vue/views/administration
+badd +34 resources/vue/views/administration/index.vue
+badd +168 resources/vue/views/administration/users/index.vue
+badd +0 ~/.vimrc
 argglobal
 silent! argdel *
 edit ~/.vimrc
 set splitbelow splitright
-wincmd _ | wincmd |
-vsplit
-1wincmd h
-wincmd w
 wincmd t
 set winheight=1 winwidth=1
-exe 'vert 1resize ' . ((&columns * 79 + 79) / 159)
-exe 'vert 2resize ' . ((&columns * 79 + 79) / 159)
-argglobal
-enew
-file \[Vundle]\ Installer
-setlocal fdm=indent
-setlocal fde=0
-setlocal fmr={{{,}}}
-setlocal fdi=#
-setlocal fdl=20
-setlocal fml=1
-setlocal fdn=20
-setlocal nofen
-lcd ~/Sites/StatSMUR
-wincmd w
 argglobal
 setlocal fdm=indent
 setlocal fde=0
@@ -61,17 +44,13 @@ setlocal fdl=20
 setlocal fml=1
 setlocal fdn=20
 setlocal nofen
-let s:l = 1 - ((0 * winheight(0) + 11) / 22)
+let s:l = 120 - ((10 * winheight(0) + 11) / 22)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-1
+120
 normal! 0
-lcd ~/Sites/StatSMUR
-wincmd w
-exe 'vert 1resize ' . ((&columns * 79 + 79) / 159)
-exe 'vert 2resize ' . ((&columns * 79 + 79) / 159)
-tabedit ~/Sites/StatSMUR/resources/vue/components/typeahead.vue
+tabedit resources/vue/views/interventions/create/general.vue
 set splitbelow splitright
 wincmd t
 set winheight=1 winwidth=1
@@ -84,19 +63,17 @@ setlocal fdl=20
 setlocal fml=1
 setlocal fdn=20
 setlocal nofen
-let s:l = 134 - ((12 * winheight(0) + 9) / 19)
+let s:l = 107 - ((0 * winheight(0) + 11) / 22)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-134
+107
 normal! 0
-lcd ~/Sites/StatSMUR
-tabnew
+tabedit resources/vue/views/interventions/create.vue
 set splitbelow splitright
 wincmd t
 set winheight=1 winwidth=1
 argglobal
-enew
 setlocal fdm=indent
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -105,7 +82,12 @@ setlocal fdl=20
 setlocal fml=1
 setlocal fdn=20
 setlocal nofen
-lcd ~/Sites/StatSMUR
+let s:l = 48 - ((20 * winheight(0) + 11) / 22)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+48
+normal! 04|
 tabnext 1
 if exists('s:wipebuf')
 "   silent exe 'bwipe ' . s:wipebuf

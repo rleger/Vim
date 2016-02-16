@@ -2,6 +2,7 @@ so ~/.vim/plugins.vim           " Plugins
 
 filetype off                    " required
 filetype plugin on
+filetype indent on
 set nocompatible                " be iMproved, required
 
 syntax enable
@@ -115,6 +116,9 @@ nnoremap <leader>cp :PluginClean<cr>
 nmap <S-Enter> O<Esc>j
 nmap <CR> o<Esc>k
 
+" Stay in visual mode when intending in visual mode
+vnoremap < <gv
+vnoremap > >gv
 " Map tab to indent in all modes
 "nnoremap <Tab> >>_
 "nnoremap <S-Tab> <<_
@@ -576,7 +580,12 @@ hi clear SignColumn
 " -- Insert
 " <C-n> Autocomplete (insert mode)
 "
+" -- Visual
 " vit Visual edit inside tag
+" vU  Uppercase letter 
+" vu  Lowercase letter
+" gUU Uppercase line
+" guu Lowercase line
 "
 " -- Multiple cursors
 " <C-d> Select next
