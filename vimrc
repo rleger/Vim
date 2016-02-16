@@ -13,7 +13,7 @@ set noswapfile                  " No swap files
 set backspace=indent,eol,start
 set showtabline=0               " Hide tab bar
 set nonumber                    " Be explicit about hiding line numbers
-set linespace=15				" Macvim specific lineheight
+set linespace=16				" Macvim specific lineheight
 set noshowmode                  " Hide the default mode text (e.g. -- INSERT -- below the statusline)
 set laststatus=2                " Always show the statusline
 set nowrap                      " don't wrap lines
@@ -37,7 +37,6 @@ set visualbell                  " don't beep
 set noerrorbells                " don't beep
 set autowrite                   " Save on buffer switch
 set mouse=a
-set linespace=16                " Set linespace to 16
 set timeout timeoutlen=200 ttimeoutlen=100
 "set timeoutlen=1000             " Incease key sequence time for commands
 set foldmethod=indent
@@ -154,7 +153,7 @@ vnoremap <C-j> :m '>+1<CR>gv=gv
 vnoremap <C-k> :m '<-2<CR>gv=gv
 
 "Run tests on file
-nnoremap <leader>pu :! /Users/romainleger/.composer/vendor/bin/phpunit %<cr>
+nnoremap <leader>pu :Test %<cr>
 nnoremap <leader>ps :! vendor/bin/phpspec run %<cr>
 
 " Multiple line move
@@ -196,6 +195,9 @@ endfunction
 :command! InitTags :call InitTags()
 
 "------------Plugins-----------"
+"/PHPUnit
+let g:phpunit_cmd = "vendor/bin/phpunit"
+
 "/PHP Docblock
 let g:pdv_template_dir = $HOME ."/.vim/bundle/pdv/templates_snip"
 autocmd FileType php noremap <leader>db :call pdv#DocumentWithSnip()<CR>
@@ -238,13 +240,13 @@ nmap <leader>ct :tabclose<cr>
 
 " Open tabs
 map <leader>t :BuffergatorTabsToggle<cr>                     
-"Trying to see if commands are faster
-command! T :BuffergatorTabsToggle
-command! B :BuffergatorToggle
+nnoremap <C-t> :BuffergatorTabsToggle<cr>                     
 
 "Toggle Buffergator (for whatever reason, putting this comment on the same
 "line will make Buffergator cycle through each buffer first...)
 map <leader>b :BuffergatorToggle<cr> 
+nnoremap <C-b> :BuffergatorToggle<cr>
+
 let g:buffergator_suppress_keymaps = 1                       " suppress BufferGator default mapping
 
 " Close buffer
@@ -327,8 +329,7 @@ let g:multi_cursor_next_key='<C-d>'
 let g:multi_cursor_prev_key='<C-s>'
 let g:multi_cursor_skip_key='<C-x>'
 let g:multi_cursor_quit_key='<Esc>'
-let g:multi_cursor_exit_from_insert_mode=0           "Don't exit when pressing <esc> in insert mode
-"let g:multi_cursor_normal_maps={'j':1, 'k':1, 'l':1, 'm':1, '!':1, '@':1, '=':1, 'q':1, 'r':1, 't':1, 'T':1, 'y':1, '[':1, ']':1, '\':1, 'd':1, 'f':1, 'F':1, 'g':1, '"':1, 'z':1, 'c':1, '<':1, '>':1}
+let g:multi_cursor_exit_from_insert_mode=0          " Don't exit when pressing <esc> in insert mode
 
 "
 "/ Airline (bottom statusbar)
@@ -339,14 +340,14 @@ let g:airline_powerline_fonts=0                     " No powerline by default
 if has("gui_running")
     let g:airline_powerline_fonts=1                 " Powerline fonts on GUI
 endif
-"let g:airline#extensions#tabline#enabled = 1        " Enable the list of buffers
-"let g:airline#extensions#tabline#fnamemod = ':t'    " Show just the filename
+"let g:airline#extensions#tabline#enabled = 1       " Enable the list of buffers
+"let g:airline#extensions#tabline#fnamemod = ':t'   " Show just the filename
 
 "
 "/ Emmet
 "
-let g:user_emmet_mode='i'                       " Enable only in insert mode
-let g:user_emmet_leader_key='<C-e>'             " Redefine mapping
+let g:user_emmet_mode='i'                           " Enable only in insert mode
+let g:user_emmet_leader_key='<C-e>'                 " Redefine mapping
 
 " Just for html and css
 let g:user_emmet_install_global = 0
@@ -356,6 +357,7 @@ augroup autosourcing
     autocmd!	
     autocmd FileType html,css EmmetInstall
 augroup END
+
 "
 "/ Syntastic
 "
@@ -386,12 +388,16 @@ let g:gitgutter_sign_removed = '-'
 let g:gitgutter_sign_removed_first_line = '^'
 let g:gitgutter_sign_modified_removed = '▪︎'
 let g:gitgutter_sign_column_always = 1              " Always show gitgutter
+let g:gitgutter_override_sign_column_highlight = 0
+let g:gitgutter_sign_column_always = 1
+"highlight SignColumn ctermbg=#333
+highlight SignColumn guibg=#333
+hi SignColumn guibg=bg
 
 "
 "/ NERDTree
 "
 " Toggle Nerdtree
-nnoremap <C-t> :NERDTreeToggle<cr>      
 nnoremap <leader>r :NERDTreeFind<cr>
 let NERDTreeHijackNetrw=0
 
@@ -415,7 +421,7 @@ augroup END
 "
 "/ PHP CS Fixer
 "
-nnoremap <silent><C-b> :call PhpCsFixerFixFile()<CR>
+"nnoremap <silent><C-b> :call PhpCsFixerFixFile()<CR>
 
 
 
@@ -423,7 +429,11 @@ nnoremap <silent><C-b> :call PhpCsFixerFixFile()<CR>
 
 "------------Visual-----------"
 set background=dark
+"colorscheme mod8
+"colorscheme hybrid_reverse
 colorscheme hybrid_material
+"colorscheme earthsong 
+"colorscheme goldfish 
 "colorscheme atom-dark
 "colorscheme Slate
 set t_CO=256						" Use 256 teminal colors
