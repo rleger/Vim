@@ -105,9 +105,9 @@ nnoremap j gj
 nnoremap k gk
 
 " Run Vundle plugin install/update
-nnoremap <leader>ip :PluginInstall<cr>
-nnoremap <leader>up :PluginUpdate<cr>
-nnoremap <leader>cp :PluginClean<cr>
+command! Ip :PluginInstall
+command! Up :PluginUpdate
+command! Cp :PluginClean
 
 " Insert lines in normal mode w/ swiching to insert mode
 " Enter will insert a line below
