@@ -32,6 +32,8 @@ Plugin 'skwp/greplace.vim'              " Search and replace
 Plugin 'tobyS/pdv'                      " PHP docblock
 Plugin 'tobyS/vmustache'                " Required by PHP docblock
 Plugin 'joonty/vim-phpunitqf.git'
+Plugin 'bronson/vim-visual-star-search' " Visual star
+Plugin 'nelstrom/vim-markdown-folding'  " Folding for markdown
 
 " ----- Snippets
 Plugin 'SirVer/ultisnips'

@@ -1,6 +1,6 @@
 " ~/bin/dotfiles/vim/sessions/StatSMUR.vim:
 " Vim session script.
-" Created by session.vim 2.13.1 on 16 février 2016 at 15:42:28.
+" Created by session.vim 2.13.1 on 18 février 2016 at 11:38:07.
 " Open this file in Vim and run :source % to restore your session.
 
 set guioptions=gm
@@ -19,75 +19,48 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
   let s:wipebuf = bufnr('%')
 endif
 set shortmess=aoO
-badd +52 app/Jobs/CreateNewIntervention.php
-badd +102 resources/vue/views/interventions/create/general.vue
+badd +1 resources/vue/views
+badd +31 app/Jobs/CreateNewIntervention.php
+badd +107 resources/vue/views/interventions/create/general.vue
 badd +1 resources/vue/views/interventions/create
-badd +34 resources/vue/views/interventions/create/patient.vue
+badd +1 resources/vue/views/interventions/create/patient.vue
 badd +48 resources/vue/views/interventions/create.vue
-badd +1 resources/vue/views/interventions
 badd +1 resources/vue/views/administration
 badd +34 resources/vue/views/administration/index.vue
-badd +168 resources/vue/views/administration/users/index.vue
-badd +0 ~/.vimrc
+badd +116 resources/vue/views/administration/users/index.vue
+badd +8 app/Legs/Leg.php
 argglobal
 silent! argdel *
-edit ~/.vimrc
+edit app/Legs/Leg.php
 set splitbelow splitright
 wincmd t
 set winheight=1 winwidth=1
 argglobal
-setlocal fdm=indent
+setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
 setlocal fdi=#
-setlocal fdl=20
+setlocal fdl=0
 setlocal fml=1
 setlocal fdn=20
 setlocal nofen
-let s:l = 120 - ((10 * winheight(0) + 11) / 22)
+silent! normal! zE
+12,20fold
+21,30fold
+31,40fold
+41,50fold
+51,60fold
+61,70fold
+71,79fold
+61
+silent! normal! zo
+let s:l = 36 - ((0 * winheight(0) + 9) / 19)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-120
+36
 normal! 0
-tabedit resources/vue/views/interventions/create/general.vue
-set splitbelow splitright
-wincmd t
-set winheight=1 winwidth=1
-argglobal
-setlocal fdm=indent
-setlocal fde=0
-setlocal fmr={{{,}}}
-setlocal fdi=#
-setlocal fdl=20
-setlocal fml=1
-setlocal fdn=20
-setlocal nofen
-let s:l = 107 - ((0 * winheight(0) + 11) / 22)
-if s:l < 1 | let s:l = 1 | endif
-exe s:l
-normal! zt
-107
-normal! 0
-tabedit resources/vue/views/interventions/create.vue
-set splitbelow splitright
-wincmd t
-set winheight=1 winwidth=1
-argglobal
-setlocal fdm=indent
-setlocal fde=0
-setlocal fmr={{{,}}}
-setlocal fdi=#
-setlocal fdl=20
-setlocal fml=1
-setlocal fdn=20
-setlocal nofen
-let s:l = 48 - ((20 * winheight(0) + 11) / 22)
-if s:l < 1 | let s:l = 1 | endif
-exe s:l
-normal! zt
-48
-normal! 04|
+lcd ~/Sites/StatSMUR
 tabnext 1
 if exists('s:wipebuf')
 "   silent exe 'bwipe ' . s:wipebuf

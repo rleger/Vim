@@ -39,11 +39,8 @@ set noerrorbells                " don't beep
 set autowrite                   " Save on buffer switch
 set mouse=a
 set timeout timeoutlen=200 ttimeoutlen=100
-"set timeoutlen=1000             " Incease key sequence time for commands
-set foldmethod=indent
-set foldlevelstart=20
-" Set the foldcolumn bg to mach window bg
-hi foldcolumn guibg=bg
+set foldlevelstart=99           " don't open folds on open
+set nofoldenable                " Disable by default, enable with zi
 
 " For performance boost
 set nocursorcolumn          " Don't show cursor column
@@ -63,7 +60,6 @@ let g:enable_bold_font = 1      " Enable some font to be bolded
 " Note, perl automatically sets foldmethod in the syntax file
 "autocmd Syntax c,cpp,vim,xml,vue,blade,html,xhtml setlocal foldmethod=syntax
 "autocmd Syntax c,cpp,vim,xml,vue,blade,html,xhtml,perl normal zR
-set nofoldenable    " disable folding
 
 " Enable % navigation between opening/closing tags
 so ~/.vim/bundle/matchit/plugin/matchit.vim
@@ -108,6 +104,9 @@ nnoremap k gk
 command! Ip :PluginInstall
 command! Up :PluginUpdate
 command! Cp :PluginClean
+
+" Remap space to folding toggle
+nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
 
 " Insert lines in normal mode w/ swiching to insert mode
 " Enter will insert a line below
@@ -220,7 +219,7 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 "/ CtrlP
 "
 let g:ctrlp_custom_ignore= 'node_modules\|DS_Store\|git'
-let g:ctrlp_match_window = 'top,order:ttb,min:1,max:30,results:30'
+let g:ctrlp_match_window = 'order:ttb,min:1,max:10,results:10'
 let g:ctrlp_extension = ['buffertag']
 let g:ctrlp_working_path_mode = 'r'                         " Use the nearest .git directory as the cwd
 
@@ -453,7 +452,7 @@ set guioptions-=e                   " Add tab pages
 " --- Theme modifications
 " Display vsplit bar with a color
 hi vertsplit guibg=#212D32 guifg=#212D32
-
+highlight FoldColumn guibg=bg guifg=white
 
 
 "------------Searching-----------"
@@ -582,10 +581,22 @@ hi clear SignColumn
 "
 " -- Visual
 " vit Visual edit inside tag
+" cf, change until , (included as opposed to ct,)
 " vU  Uppercase letter 
 " vu  Lowercase letter
 " gUU Uppercase line
 " guu Lowercase line
+"
+" e – go to the end of the current word.
+" E – go to the end of the current WORD.
+" b – go to the previous (before) word.
+" B – go to the previous (before) WORD.
+" w – go to the next word.
+" W – go to the next WORD.
+"
+" H – Go to the first line of current screen.
+" M – Go to the middle line of current screen.
+" L – Go to the last line of current screen.
 "
 " -- Multiple cursors
 " <C-d> Select next
