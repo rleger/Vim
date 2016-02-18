@@ -1,6 +1,6 @@
 " ~/bin/dotfiles/vim/sessions/MonUrologue.vim:
 " Vim session script.
-" Created by session.vim 2.13.1 on 17 février 2016 at 18:10:42.
+" Created by session.vim 2.13.1 on 18 février 2016 at 20:19:57.
 " Open this file in Vim and run :source % to restore your session.
 
 set guioptions=gm
@@ -20,28 +20,28 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
 endif
 set shortmess=aoO
 badd +3 app/Http/routes.php
-badd +0 resources/views/actualite.blade.php
 argglobal
 silent! argdel *
-edit resources/views/actualite.blade.php
+edit app/Http/routes.php
 set splitbelow splitright
 wincmd t
 set winheight=1 winwidth=1
 argglobal
-setlocal fdm=indent
+setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
 setlocal fdi=#
-setlocal fdl=20
+setlocal fdl=99
 setlocal fml=1
 setlocal fdn=20
 setlocal nofen
-let s:l = 17 - ((16 * winheight(0) + 12) / 25)
+silent! normal! zE
+let s:l = 3 - ((2 * winheight(0) + 11) / 22)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-17
-normal! 022|
+3
+normal! 0
 tabnext 1
 if exists('s:wipebuf')
 "   silent exe 'bwipe ' . s:wipebuf

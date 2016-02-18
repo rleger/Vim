@@ -64,6 +64,7 @@ let g:enable_bold_font = 1      " Enable some font to be bolded
 " Enable % navigation between opening/closing tags
 so ~/.vim/bundle/matchit/plugin/matchit.vim
 
+au BufRead,BufNewFile *.txt,*.md set wrap linebreak nolist textwidth=0 wrapmargin=0
 
 
 
@@ -71,7 +72,7 @@ so ~/.vim/bundle/matchit/plugin/matchit.vim
 "------------Custom filetypes ------------"
 " Putting it in autogroup doesn't work
 " Vue
-autocmd BufNewFile,BufRead *.vue set filetype=vue | :syntax sync fromstart
+autocmd BufNewFile,BufRead *.vue set filetype=javascript | set filetype=html | set filetype=vue | :syntax sync fromstart
 ""autocmd BufNewFile,BufRead *.vue set ft=html | set ft=javacscript | set ft=vue
 
 " Blade
@@ -159,14 +160,6 @@ vnoremap <C-k> :m '<-2<CR>gv=gv
 nnoremap <leader>pu :Test %<cr>
 nnoremap <leader>ps :! vendor/bin/phpspec run %<cr>
 
-" Multiple line move
-" ... Giving it up in favor of split movements
-" Ï = alt-j and È = alt-k
-" J will navigate down 10 lines (5J)
-"nnoremap Ï 10j								
-" K will navigate up 10 lines (5K)
-"nnoremap È 10k								
-
 " Alternative to enter normal mode
 " Remap jj => to escape (enter normal mode) 
 inoremap jj <Esc>								
@@ -198,6 +191,10 @@ endfunction
 :command! InitTags :call InitTags()
 
 "------------Plugins-----------"
+"/PHPfolding
+" Disable php folding by default
+let g:DisableAutoPHPFolding = 1
+"
 "/PHPUnit
 let g:phpunit_cmd = "vendor/bin/phpunit"
 
@@ -218,7 +215,7 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 "
 "/ CtrlP
 "
-let g:ctrlp_custom_ignore= 'node_modules\|DS_Store\|git'
+let g:ctrlp_custom_ignore= 'public\|node_modules\|DS_Store\|git'
 let g:ctrlp_match_window = 'order:ttb,min:1,max:10,results:10'
 let g:ctrlp_extension = ['buffertag']
 let g:ctrlp_working_path_mode = 'r'                         " Use the nearest .git directory as the cwd
@@ -356,17 +353,14 @@ let g:user_emmet_leader_key='<C-e>'                 " Redefine mapping
 let g:user_emmet_install_global = 0
 
 " Enable emmet on html and css
-augroup autosourcing
-    autocmd!	
-    autocmd FileType html,css EmmetInstall
-augroup END
+autocmd FileType html,css,vue,blade EmmetInstall
 
 "
 "/ Syntastic
 "
-"set statusline+=%#warningmsg#
-"set statusline+=%{SyntasticStatuslineFlag()}
-"set statusline+=%*
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
@@ -392,10 +386,6 @@ let g:gitgutter_sign_removed_first_line = '^'
 let g:gitgutter_sign_modified_removed = '▪︎'
 let g:gitgutter_sign_column_always = 1              " Always show gitgutter
 let g:gitgutter_override_sign_column_highlight = 0
-let g:gitgutter_sign_column_always = 1
-"highlight SignColumn ctermbg=#333
-highlight SignColumn guibg=#333
-hi SignColumn guibg=bg
 
 "
 "/ NERDTree
@@ -424,7 +414,7 @@ augroup END
 "
 "/ PHP CS Fixer
 "
-"nnoremap <silent><C-b> :call PhpCsFixerFixFile()<CR>
+nnoremap <silent><C-b> :call PhpCsFixerFixFile()<CR>
 
 
 
@@ -432,9 +422,9 @@ augroup END
 
 "------------Visual-----------"
 set background=dark
-"colorscheme mod8
+colorscheme mod8
 "colorscheme hybrid_reverse
-colorscheme hybrid_material
+"colorscheme hybrid_material
 "colorscheme earthsong 
 "colorscheme goldfish 
 "colorscheme atom-dark
@@ -449,10 +439,18 @@ set guioptions-=R
 set guioptions-=e                   " Add tab pages 
 
 
+
+
+
 " --- Theme modifications
 " Display vsplit bar with a color
 hi vertsplit guibg=#212D32 guifg=#212D32
-highlight FoldColumn guibg=bg guifg=white
+hi FoldColumn guibg=bg guifg=white
+hi SignColumn guibg=bg
+hi LineNr guibg=bg guifg=#4F5B67
+
+
+
 
 
 "------------Searching-----------"
@@ -477,7 +475,7 @@ nmap sp :split<cr>
 "nmap <C-m> <C-W><C-H>
 "nmap <C-l> <C-W><C-L>
 
-"Mapping with alt
+"Mapping with alt to move between splits
 nmap <silent> È :wincmd k<CR>
 nmap <silent> Ï :wincmd j<CR>
 nmap <silent> Ì :wincmd h<CR>
@@ -502,7 +500,7 @@ augroup autosourcing
 augroup END
 
 " I don't want to pull up these folders/files when calling CtrlP
-set wildignore+=*/vendor/**,node_modules/*,public/*,.DS_Store,tags,tags.*
+set wildignore+=*/vendor/**,node_modules/*,.DS_Store,tags,tags.*
 
 " Powerline (Fancy thingy at bottom stuff)
 "let g:Powerline_symbols = 'fancy'
@@ -534,6 +532,9 @@ command! TheseEJ :OpenSession TheseEJ
 "command! MonUrologue :cd ~/Sites/mon-urologue<bar>:CtrlP<cr>
 
 
+
+
+
 "----------Fast navigation in projects-------------"
 "Laravel routes
 nmap <leader><leader>r :e app/Http/routes.php<cr>
@@ -541,6 +542,9 @@ nmap <leader><leader>r :e app/Http/routes.php<cr>
 nmap <leader><leader>c :e composer.json<cr>
 "Vue routes
 nmap <leader><leader>rv :e resources/vue/routes.js<cr>          
+
+
+
 
 
 "-----------Sessions------------"
@@ -606,5 +610,3 @@ hi clear SignColumn
 "
 " ,pcf Php cs fixer (file)
 " ,pcd Php cs fixer (directory)
-"
-"

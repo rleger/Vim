@@ -1,6 +1,6 @@
 " ~/bin/dotfiles/vim/sessions/StatSMUR.vim:
 " Vim session script.
-" Created by session.vim 2.13.1 on 18 février 2016 at 11:38:07.
+" Created by session.vim 2.13.1 on 18 février 2016 at 22:09:31.
 " Open this file in Vim and run :source % to restore your session.
 
 set guioptions=gm
@@ -8,7 +8,7 @@ if exists('g:syntax_on') != 1 | syntax on | endif
 if exists('g:did_load_filetypes') != 1 | filetype on | endif
 if exists('g:did_load_ftplugin') != 1 | filetype plugin on | endif
 if exists('g:did_indent_on') != 1 | filetype indent on | endif
-call setqflist([{'lnum': 0, 'col': 0, 'valid': 1, 'vcol': 0, 'nr': -1, 'type': '', 'pattern': '', 'filename': 'resources/vue/views/interventions/create.vue', 'text': 'make: *** No targets specified and no makefile found.  Stop.'}])
+call setqflist([{'lnum': 64, 'col': 56, 'valid': 1, 'vcol': 0, 'nr': -1, 'type': '', 'pattern': '', 'filename': 'resources/vue/views/interventions/index.vue', 'text': '                        <label for="mes-interventions">Mes interventions</label>'}])
 let SessionLoad = 1
 if &cp | set nocp | endif
 let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
@@ -19,46 +19,30 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
   let s:wipebuf = bufnr('%')
 endif
 set shortmess=aoO
-badd +1 resources/vue/views
-badd +31 app/Jobs/CreateNewIntervention.php
-badd +107 resources/vue/views/interventions/create/general.vue
-badd +1 resources/vue/views/interventions/create
-badd +1 resources/vue/views/interventions/create/patient.vue
-badd +48 resources/vue/views/interventions/create.vue
-badd +1 resources/vue/views/administration
-badd +34 resources/vue/views/administration/index.vue
-badd +116 resources/vue/views/administration/users/index.vue
-badd +8 app/Legs/Leg.php
+badd +382 ~/.vimrc
+badd +24 app/Jobs/CreateNewIntervention.php
+badd +31 resources/vue/views/interventions/create/patient.vue
+badd +89 resources/vue/views/interventions/create/general.vue
 argglobal
 silent! argdel *
-edit app/Legs/Leg.php
+edit ~/.vimrc
 set splitbelow splitright
 wincmd t
 set winheight=1 winwidth=1
 argglobal
-setlocal fdm=manual
+setlocal fdm=indent
 setlocal fde=0
 setlocal fmr={{{,}}}
 setlocal fdi=#
-setlocal fdl=0
+setlocal fdl=99
 setlocal fml=1
 setlocal fdn=20
 setlocal nofen
-silent! normal! zE
-12,20fold
-21,30fold
-31,40fold
-41,50fold
-51,60fold
-61,70fold
-71,79fold
-61
-silent! normal! zo
-let s:l = 36 - ((0 * winheight(0) + 9) / 19)
+let s:l = 392 - ((0 * winheight(0) + 9) / 19)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-36
+392
 normal! 0
 lcd ~/Sites/StatSMUR
 tabnext 1
