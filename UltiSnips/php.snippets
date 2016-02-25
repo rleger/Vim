@@ -19,6 +19,32 @@ ${1:protected} function ${2:foo}()
 }
 endsnippet
 
+
+snippet met
+public function ${2:foo}()
+{
+	${0}
+}
+endsnippet
+
+
+snippet mep
+protected function ${2:foo}()
+{
+	${0}
+}
+endsnippet
+
+
+snippet factory
+$factory->define($1::class, function (Faker\Generator $faker) {
+	return [
+		$0
+	];
+});
+endsnippet
+
+
 snippet _c
 public function __construct()
 {
@@ -84,6 +110,12 @@ endsnippet
 
 snippet $
 $this->
+endsnippet
+
+
+snippet foreign
+$table->integer('$1_id')->unsigned()->nullable();
+$table->foreign('$1_id')->references('id')->on('$1')${2:->onUpdate('cascade')}${3:->onDelete('cascade')};
 endsnippet
 
 

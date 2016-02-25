@@ -66,6 +66,18 @@ so ~/.vim/bundle/matchit/plugin/matchit.vim
 
 au BufRead,BufNewFile *.txt,*.md set wrap linebreak nolist textwidth=0 wrapmargin=0
 
+" If you prefer the Omni-Completion tip window to close when a selection is
+" made, these lines close it on movement in insert mode or when leaving
+" insert mode
+autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
+autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+
+" Vim will use the system clipboard
+if has('unnamedplus')
+  set clipboard=unnamed,unnamedplus
+endif
+
+
 
 
 
@@ -116,16 +128,6 @@ nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
 nmap <S-Enter> O<Esc>j
 nmap <CR> o<Esc>k
 
-" Stay in visual mode when intending in visual mode
-vnoremap < <gv
-vnoremap > >gv
-" Map tab to indent in all modes
-"nnoremap <Tab> >>_
-"nnoremap <S-Tab> <<_
-"inoremap <S-Tab> <C-D>
-"vnoremap <Tab> >gv
-"vnoremap <S-Tab> <gv
-
 " Ctags navigation
 "alt : to go to definition
 nnoremap ÷ <C-]>
@@ -170,6 +172,12 @@ nnoremap ,cd :cd %:p:h<CR>:pwd<CR>
 " Create/edit file in the current directory
 nmap :ed :edit %:p:h/
 
+" Abbreviations
+abbrev gm !php artisan generate:model
+abbrev gmp !php artisan generate:model:pivot
+abbrev gc !php artisan generate:controller
+abbrev gmig !php artisan generate:migration
+
 
 
 
@@ -183,12 +191,15 @@ function! InitTags()
     if getcwd() == $HOME
         echoerr "You should not be generating tags for the home directory !!"
     else
-        execute ':silent! ! ctags -R --PHP-kinds=+cf -f tags.vendors vendor' 
-        execute ':silent! ! ctags -R --PHP-kinds=+cf --exclude=vendor --exclude=node_modules --exclude=public'
+        execute ':silent! ! ctags -R --fields=+aimS --languages=php tags.vendors vendor' 
+        execute ':silent! ! ctags -R --fields=+aimS --languages=php --exclude=vendor --exclude=node_modules --exclude=public'
     endif
 endfunction
 
 :command! InitTags :call InitTags()
+
+" Auto-remove trailing spaces
+autocmd BufWritePre *.php :%s/\s\+$//e
 
 "------------Plugins-----------"
 "/PHPfolding
@@ -202,6 +213,9 @@ let g:phpunit_cmd = "vendor/bin/phpunit"
 let g:pdv_template_dir = $HOME ."/.vim/bundle/pdv/templates_snip"
 autocmd FileType php noremap <leader>db :call pdv#DocumentWithSnip()<CR>
 
+" Move to word
+map  <Leader><leader> <Plug>(easymotion-bd-w)
+nmap <Leader><leader> <Plug>(easymotion-overwin-w)
 "
 "/UltiSnip
 
@@ -244,7 +258,6 @@ nnoremap <C-t> :BuffergatorTabsToggle<cr>
 
 "Toggle Buffergator (for whatever reason, putting this comment on the same
 "line will make Buffergator cycle through each buffer first...)
-map <leader>b :BuffergatorToggle<cr> 
 nnoremap <C-b> :BuffergatorToggle<cr>
 
 let g:buffergator_suppress_keymaps = 1                       " suppress BufferGator default mapping
@@ -268,6 +281,7 @@ nmap <leader>bq :Bclose<cr>
 "Alerternative to php-cs-fixer plugin
 let g:php_cs_fixer_enable_default_mapping = 0 " disable default mapping
 nnoremap <silent><leader>pcf :w<bar>:! ~/.composer/vendor/bin/php-cs-fixer fix % --level=symfony --fixers=align_double_arrow<CR>
+command! Pcf :w<bar>:! ~/.composer/vendor/bin/php-cs-fixer fix % --level=symfony --fixers=align_double_arrow<CR>
 
 "
 "/ Dash integration
@@ -391,17 +405,12 @@ let g:gitgutter_override_sign_column_highlight = 0
 "/ NERDTree
 "
 " Toggle Nerdtree
+nnoremap - :NERDTreeToggle<cr>
 nnoremap <leader>r :NERDTreeFind<cr>
-let NERDTreeHijackNetrw=0
-
-"
-"/ NERDCommenter
-"
-" Don't create default mapping
-"let NERDCreateDefaultMappings=0
-" Toggle comments
-map <leader>: <plug>NERDCommenterToggle
-
+let NERDTreeHijackNetrw=1           " Replace Netrw by NerdTree
+let NERDTreeMinimalUI=1             " Set the UI to the minium
+let NERDTreeAutoDeleteBuffer=1      " Delete buffer after file rename or del
+let NERDTreeQuitOnOpen = 1          " Close on file opening
 "
 "/ PHP Insert Use
 "
@@ -414,7 +423,7 @@ augroup END
 "
 "/ PHP CS Fixer
 "
-nnoremap <silent><C-b> :call PhpCsFixerFixFile()<CR>
+"nnoremap <silent><C-b> :call PhpCsFixerFixFile()<CR>
 
 
 
@@ -430,6 +439,7 @@ colorscheme mod8
 "colorscheme atom-dark
 "colorscheme Slate
 set t_CO=256						" Use 256 teminal colors
+"set guifont=Operator_Mono:h15			
 set guifont=Fira_Code:h14			" Set font family and size
 
 set guioptions-=l					" Remove scrollbars (left and right)
@@ -448,7 +458,8 @@ hi vertsplit guibg=#212D32 guifg=#212D32
 hi FoldColumn guibg=bg guifg=white
 hi SignColumn guibg=bg
 hi LineNr guibg=bg guifg=#4F5B67
-
+" Matching parenthesis and such highlight
+hi MatchParen cterm=none guibg=#212D32 guifg=#1BADF8  
 
 
 
@@ -521,12 +532,13 @@ augroup END
 
 
 "------------Projects-shortcuts-----------"
-command! StatSMUR :OpenSession StatSMUR
+command! StatSMUR :cd ~/Sites/StatSMUR<bar>:OpenSession StatSMUR
 command! Fidelio :OpenSession Fidelio
 command! MonUrologue :OpenSession MonUrologue
 command! LldAdmin :OpenSession LldAdmin
 command! LldFront :OpenSession LldFront
 command! TheseEJ :OpenSession TheseEJ
+command! MaCave :OpenSession MaCave
 
 "Without sessions
 "command! MonUrologue :cd ~/Sites/mon-urologue<bar>:CtrlP<cr>
@@ -537,11 +549,17 @@ command! TheseEJ :OpenSession TheseEJ
 
 "----------Fast navigation in projects-------------"
 "Laravel routes
-nmap <leader><leader>r :e app/Http/routes.php<cr>
-"Laravel composer
-nmap <leader><leader>c :e composer.json<cr>
+
+" Laravel framework commons
+nmap <leader>lr :e app/routes.php<cr>
+nmap <leader>lca :e app/config/app.php<cr>81Gf(%O
+nmap <leader>lcd :e app/config/database.php<cr>
+nmap <leader>lc :e composer.json<cr>
+
 "Vue routes
-nmap <leader><leader>rv :e resources/vue/routes.js<cr>          
+nmap <leader>lrv :e resources/vue/routes.js<cr>          
+
+nmap <leader>a :! php artisan<space>
 
 
 
@@ -562,17 +580,31 @@ hi clear SignColumn
 
 
 
+" Add a new dependency to a PHP class
+function! AddDependency()
+    let dependency = input('Var Name: ')
+    let namespace = input('Class Path: ')
 
+    let segments = split(namespace, '\')
+    let typehint = segments[-1]
+
+    exec 'normal gg/construct^M:H^Mf)i, ' . typehint . ' $' . dependency . '^[/}^>O$this->^[a' . dependency . ' = $' . dependency . ';^[?{^MkOprotected $' . dependency . ';^M^[?{^MOuse ' . namespace . ';^M^['
+
+    " Remove opening comma if there is only one dependency
+    exec 'normal :%s/(, /(/g'
+endfunction
+nmap ,2  :call AddDependency()<cr>
 "-----------Notes----------"
 
 "
 " -- Navigate
-" <.> Navigate to last insertion point
 " 
 " <C-o> previous position
 " <C-i> next position => is actually <tab>.. and I remap it !
 " <C-w-o> Current buffer to fullscreen
 " 
+" . repeat last command
+" ; repeat last search (ex : f+ to find +)
 " -- Ctags
 " alt-: to go to definition
 " alt-; to come back
@@ -591,16 +623,32 @@ hi clear SignColumn
 " gUU Uppercase line
 " guu Lowercase line
 "
+" A - put the cursor at the end of the line in insert mode
+" I - put the cursor at begining of the line in insert mode
 " e – go to the end of the current word.
 " E – go to the end of the current WORD.
 " b – go to the previous (before) word.
 " B – go to the previous (before) WORD.
 " w – go to the next word.
 " W – go to the next WORD.
+" gi - Insert text in the same position as where Insert mode
+"
 "
 " H – Go to the first line of current screen.
 " M – Go to the middle line of current screen.
 " L – Go to the last line of current screen.
+"
+" -- Operation on multiple lines
+" 1) Select visually
+" 2) :'<,'>normal . -> will repeat the last commmand on all lines
+"
+"
+" -- NERDTree
+" go - Open file without leaving nerdtree
+" I - Toggle invisible files
+" m - access secondary commands
+" u - Move tree root up a dir
+" C - Set current directory as root
 "
 " -- Multiple cursors
 " <C-d> Select next
@@ -610,3 +658,32 @@ hi clear SignColumn
 "
 " ,pcf Php cs fixer (file)
 " ,pcd Php cs fixer (directory)
+"
+"function! TextEnableCodeSnip(filetype,start,end,textSnipHl) abort
+"    let ft=toupper(a:filetype)
+"    let group='textGroup'.ft
+"    if exists('b:current_syntax')
+"        let s:current_syntax=b:current_syntax
+"        " Remove current syntax definition, as some syntax files (e.g. cpp.vim)
+"        " do nothing if b:current_syntax is defined.
+"        unlet b:current_syntax
+"    endif
+"    execute 'syntax include @'.group.' syntax/'.a:filetype.'.vim'
+"    try
+"        execute 'syntax include @'.group.' after/syntax/'.a:filetype.'.vim'
+"    catch
+"    endtry
+"    if exists('s:current_syntax')
+"        let b:current_syntax=s:current_syntax
+"    else
+"        unlet b:current_syntax
+"    endif
+"    execute 'syntax region textSnip'.ft.'
+"                \ matchgroup='.a:textSnipHl.'
+"                \ start="'.a:start.'" end="'.a:end.'"
+"                \ contains=@'.group
+"endfunction
+"
+"call TextEnableCodeSnip('html', '<template>', '</template>', 'SpecialComment')
+"call TextEnableCodeSnip('javascript', '<script>', '</script>', 'SpecialComment')
+"

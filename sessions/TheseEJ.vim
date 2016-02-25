@@ -1,6 +1,6 @@
 " ~/bin/dotfiles/vim/sessions/TheseEJ.vim:
 " Vim session script.
-" Created by session.vim 2.13.1 on 15 février 2016 at 11:28:49.
+" Created by session.vim 2.13.1 on 25 février 2016 at 14:15:53.
 " Open this file in Vim and run :source % to restore your session.
 
 set guioptions=gm
@@ -19,28 +19,33 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
   let s:wipebuf = bufnr('%')
 endif
 set shortmess=aoO
-badd +0 app/Http/routes.php
+badd +1 app/Http/routes.php
+badd +1 public/surveys/encephalitejaponaise.json
+badd +146 public/surveys/Thèse.txt
+badd +8 /Volumes/TX/these/Thèse.txt
 argglobal
 silent! argdel *
-edit app/Http/routes.php
+argadd /Volumes/TX/these/Thèse.txt
+edit public/surveys/encephalitejaponaise.json
 set splitbelow splitright
 wincmd t
 set winheight=1 winwidth=1
 argglobal
-setlocal fdm=indent
+setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
 setlocal fdi=#
-setlocal fdl=20
+setlocal fdl=99
 setlocal fml=1
 setlocal fdn=20
 setlocal nofen
-let s:l = 1 - ((0 * winheight(0) + 9) / 19)
+silent! normal! zE
+let s:l = 11 - ((10 * winheight(0) + 9) / 19)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-1
-normal! 0
+11
+normal! 022|
 tabnext 1
 if exists('s:wipebuf')
 "   silent exe 'bwipe ' . s:wipebuf

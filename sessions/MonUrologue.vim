@@ -1,6 +1,6 @@
 " ~/bin/dotfiles/vim/sessions/MonUrologue.vim:
 " Vim session script.
-" Created by session.vim 2.13.1 on 18 février 2016 at 20:19:57.
+" Created by session.vim 2.13.1 on 25 février 2016 at 14:15:51.
 " Open this file in Vim and run :source % to restore your session.
 
 set guioptions=gm
@@ -36,12 +36,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal nofen
 silent! normal! zE
-let s:l = 3 - ((2 * winheight(0) + 11) / 22)
+let s:l = 6 - ((4 * winheight(0) + 9) / 19)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-3
-normal! 0
+6
+normal! 065|
 tabnext 1
 if exists('s:wipebuf')
 "   silent exe 'bwipe ' . s:wipebuf
