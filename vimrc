@@ -19,6 +19,9 @@ set noshowmode                  " Hide the default mode text (e.g. -- INSERT -- 
 set laststatus=2                " Always show the statusline
 set nowrap                      " don't wrap lines
 set autoread                    " Automatically reload changed file
+set autowriteall                " Automatically save file on buffer change
+set complete=.,w,b,u            " Autocomplete to buffers, splits, unloaded buffers
+vmap <leader>su ! awk '{ print length(), $0 \| "sort -n \| cut-d\\ -f2-" }'<cr>
 "set textwidth=80
 "set textwidth=0 wrapmargin=0
 
@@ -93,6 +96,9 @@ augroup autosourcing
     autocmd BufNewFile,BufRead *.blade.php set filetype=html | set filetype=phtml | set filetype=blade 
 augroup END
 
+" Autocomplete php language
+autocmd FileType php set omnifunc=phpcomplete#CompletePHP
+
 
 
 
@@ -136,6 +142,9 @@ nnoremap … <C-T>
 
 " Toggle line numbers
 nmap <C-l><C-l> :set invnumber<CR>
+
+" Select the line on <C-l>
+map <C-l> <esc>V
 
 " Find a tag
 nmap <leader>f :tag<space>
@@ -214,8 +223,18 @@ let g:pdv_template_dir = $HOME ."/.vim/bundle/pdv/templates_snip"
 autocmd FileType php noremap <leader>db :call pdv#DocumentWithSnip()<CR>
 
 " Move to word
-map  <Leader><leader> <Plug>(easymotion-bd-w)
-nmap <Leader><leader> <Plug>(easymotion-overwin-w)
+let g:EasyMotion_leader_key = '<Leader>' 
+" <Leader>f{char} to move to {char}
+map  <leader><leader>f <Plug>(easymotion-bd-f)
+nmap <leader><leader>f <Plug>(easymotion-overwin-f)
+
+" Move to line
+map <leader><leader>L <Plug>(easymotion-bd-jk)
+nmap <leader><leader>L <Plug>(easymotion-overwin-line)
+
+" Move to word
+map  <leader><leader>w <Plug>(easymotion-bd-w)
+nmap <leader><leader>w <Plug>(easymotion-overwin-w)
 "
 "/UltiSnip
 
@@ -386,7 +405,8 @@ let g:syntastic_check_on_wq = 0
 let g:syntastic_mode_map = {
             \ "mode": "passive",
             \ "active_filetypes": [],
-            \ "passive_filetypes": ["puppet"] }
+            \ "passive_filetypes": ["puppet"] 
+            \}
 
 "
 "/ Gitgutter
@@ -432,11 +452,11 @@ augroup END
 "------------Visual-----------"
 set background=dark
 colorscheme mod8
-"colorscheme hybrid_reverse
-"colorscheme hybrid_material
+" colorscheme hybrid_reverse
+" colorscheme hybrid_material
 "colorscheme earthsong 
 "colorscheme goldfish 
-"colorscheme atom-dark
+" colorscheme atom-dark
 "colorscheme Slate
 set t_CO=256						" Use 256 teminal colors
 "set guifont=Operator_Mono:h15			
@@ -538,7 +558,7 @@ command! MonUrologue :OpenSession MonUrologue
 command! LldAdmin :OpenSession LldAdmin
 command! LldFront :OpenSession LldFront
 command! TheseEJ :OpenSession TheseEJ
-command! MaCave :OpenSession MaCave
+command! MaCave :cd ~/Sites/MaCave<bar>:OpenSession MaCave
 
 "Without sessions
 "command! MonUrologue :cd ~/Sites/mon-urologue<bar>:CtrlP<cr>
@@ -551,9 +571,9 @@ command! MaCave :OpenSession MaCave
 "Laravel routes
 
 " Laravel framework commons
-nmap <leader>lr :e app/routes.php<cr>
-nmap <leader>lca :e app/config/app.php<cr>81Gf(%O
-nmap <leader>lcd :e app/config/database.php<cr>
+nmap <leader>lr :e app/Http/routes.php<cr>
+nmap <leader>lca :e config/app.php<cr>157G
+nmap <leader>lcd :e config/database.php<cr>
 nmap <leader>lc :e composer.json<cr>
 
 "Vue routes

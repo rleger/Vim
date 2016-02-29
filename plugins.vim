@@ -35,7 +35,9 @@ Plugin 'joonty/vim-phpunitqf.git'
 Plugin 'bronson/vim-visual-star-search' " Visual star
 Plugin 'nelstrom/vim-markdown-folding'  " Folding for markdown
 Plugin 'Raimondi/delimitMate'           " Autoclose matching parenthesis..
-Plugin 'easymotion/vim-easymotion'
+Plugin 'easymotion/vim-easymotion'      " Move to anyplace in the file
+Plugin 'ervandew/supertab'              " Tab completion
+
 
 " ----- Snippets
 Plugin 'SirVer/ultisnips'
