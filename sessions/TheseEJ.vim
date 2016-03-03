@@ -1,6 +1,6 @@
 " ~/bin/dotfiles/vim/sessions/TheseEJ.vim:
 " Vim session script.
-" Created by session.vim 2.13.1 on 25 février 2016 at 14:15:53.
+" Created by session.vim 2.13.1 on 29 février 2016 at 15:35:01.
 " Open this file in Vim and run :source % to restore your session.
 
 set guioptions=gm
@@ -14,19 +14,20 @@ if &cp | set nocp | endif
 let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
 let v:this_session=expand("<sfile>:p")
 silent only
-cd ~/Sites/TheseEJ
+cd ~/Sites/StatSMUR
 if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
   let s:wipebuf = bufnr('%')
 endif
 set shortmess=aoO
-badd +1 app/Http/routes.php
-badd +1 public/surveys/encephalitejaponaise.json
-badd +146 public/surveys/Thèse.txt
+badd +1 ~/Sites/TheseEJ/app/Http/routes.php
+badd +11 ~/Sites/TheseEJ/public/surveys/encephalitejaponaise.json
+badd +146 ~/Sites/TheseEJ/public/surveys/Thèse.txt
 badd +8 /Volumes/TX/these/Thèse.txt
+badd +0 ~/Sites/TheseEJ/composer.json
 argglobal
 silent! argdel *
 argadd /Volumes/TX/these/Thèse.txt
-edit public/surveys/encephalitejaponaise.json
+edit ~/Sites/TheseEJ/composer.json
 set splitbelow splitright
 wincmd t
 set winheight=1 winwidth=1
@@ -40,12 +41,12 @@ setlocal fml=1
 setlocal fdn=20
 setlocal nofen
 silent! normal! zE
-let s:l = 11 - ((10 * winheight(0) + 9) / 19)
+let s:l = 57 - ((18 * winheight(0) + 9) / 19)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-11
-normal! 022|
+57
+normal! 0
 tabnext 1
 if exists('s:wipebuf')
 "   silent exe 'bwipe ' . s:wipebuf

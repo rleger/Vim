@@ -1,6 +1,6 @@
 " ~/bin/dotfiles/vim/sessions/LldAdmin.vim:
 " Vim session script.
-" Created by session.vim 2.13.1 on 26 février 2016 at 09:40:49.
+" Created by session.vim 2.13.1 on 29 février 2016 at 15:29:06.
 " Open this file in Vim and run :source % to restore your session.
 
 set guioptions=gm
@@ -20,7 +20,8 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
 endif
 set shortmess=aoO
 badd +10 resources/vue/views/objects/index.vue
-badd +0 resources/vue/views/objects/create.vue
+badd +16 resources/vue/views/objects/create.vue
+badd +22 composer.json
 argglobal
 silent! argdel *
 edit resources/vue/views/objects/create.vue
@@ -36,12 +37,12 @@ setlocal fdl=99
 setlocal fml=1
 setlocal fdn=20
 setlocal nofen
-let s:l = 7 - ((6 * winheight(0) + 9) / 19)
+let s:l = 311 - ((18 * winheight(0) + 9) / 19)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-7
-normal! 013|
+311
+normal! 0
 tabnext 1
 if exists('s:wipebuf')
 "   silent exe 'bwipe ' . s:wipebuf

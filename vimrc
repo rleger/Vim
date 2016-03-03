@@ -1,11 +1,12 @@
 so ~/.vim/plugins.vim           " Plugins
 
 filetype off                    " required
-filetype plugin on
-filetype indent on
-set nocompatible                " be iMproved, required
-
 syntax enable
+set nocompatible
+
+if has("autocmd")
+  filetype plugin indent on
+endif
 
 set wildmode=list:longest,full  " Show file suggestions on tab press
 set wildmenu                    " e.g. :e file<tab>
@@ -99,8 +100,10 @@ augroup END
 " Autocomplete php language
 autocmd FileType php set omnifunc=phpcomplete#CompletePHP
 
-
-
+" Quick set filetype
+command! Html :set ft=html
+command! Vue :set ft=vue
+command! Javascript :set ft=javascript
 
 
 "------------Mappings-----------"
@@ -218,15 +221,24 @@ let g:DisableAutoPHPFolding = 1
 "/PHPUnit
 let g:phpunit_cmd = "vendor/bin/phpunit"
 
+"/Comma or semicolon sepation plugin
+command! CommaOrSemiColon call cosco#commaOrSemiColon()
+autocmd FileType php,javascript,css,vue nnoremap <silent> <Leader>; :call cosco#commaOrSemiColon()<CR>
+autocmd FileType php,javascript,css,vue inoremap <silent> <Leader>; <c-o>:call cosco#commaOrSemiColon()<CR>
+
 "/PHP Docblock
 let g:pdv_template_dir = $HOME ."/.vim/bundle/pdv/templates_snip"
 autocmd FileType php noremap <leader>db :call pdv#DocumentWithSnip()<CR>
 
-" Move to word
+"/EasyMotion 
 let g:EasyMotion_leader_key = '<Leader>' 
 " <Leader>f{char} to move to {char}
 map  <leader><leader>f <Plug>(easymotion-bd-f)
 nmap <leader><leader>f <Plug>(easymotion-overwin-f)
+
+"/Table Mode
+let g:table_mode_corner="|"
+
 
 " Move to line
 map <leader><leader>L <Plug>(easymotion-bd-jk)
@@ -287,20 +299,18 @@ nmap <leader>bq :Bclose<cr>
 "
 "/ PHP-CS-Fixer
 
-"let g:php_cs_fixer_path = "/User/romainleger/.composer/vendor/bin/php-cs-fixer" " define the path to the php-cs-fixer.phar
-"let g:php_cs_fixer_level = "symfony"              " which level ?
-"let g:php_cs_fixer_config = "default"             " configuration
-"let g:php_cs_fixer_php_path = "php"               " Path to PHP
-"let g:php_cs_fixer_fixers_list = "align_double_arrow,linefeed,indentation"
-"let g:php_cs_fixer_enable_default_mapping = 1     " Enable the mapping by default (<leader>pcd)
+let g:php_cs_fixer_level = "psr2"              " which level ?
+let g:php_cs_fixer_config = "default"             " configuration
+let g:php_cs_fixer_php_path = "php"               " Path to PHP
+let g:php_cs_fixer_fixers_list = "align_double_arrow,linefeed,indentation"
+let g:php_cs_fixer_enable_default_mapping = 0     " Enable the mapping by default (<leader>pcd)
 
 "Remap default to save before running (avoid losing unsaved changes)
-"nnoremap <silent><leader>pcf :w<bar>:call PhpCsFixerFixFile()<CR>
+nnoremap <silent><leader>pf :w<bar>:call PhpCsFixerFixFile()<CR>
 "
 "Alerternative to php-cs-fixer plugin
-let g:php_cs_fixer_enable_default_mapping = 0 " disable default mapping
-nnoremap <silent><leader>pcf :w<bar>:! ~/.composer/vendor/bin/php-cs-fixer fix % --level=symfony --fixers=align_double_arrow<CR>
-command! Pcf :w<bar>:! ~/.composer/vendor/bin/php-cs-fixer fix % --level=symfony --fixers=align_double_arrow<CR>
+" let g:php_cs_fixer_enable_default_mapping = 0 " disable default mapping
+" nnoremap <silent><leader>pcf :w<bar>:! ~/.composer/vendor/bin/php-cs-fixer fix % --level=symfony --fixers=align_double_arrow<CR>
 
 "
 "/ Dash integration
@@ -553,6 +563,7 @@ augroup END
 
 "------------Projects-shortcuts-----------"
 command! StatSMUR :cd ~/Sites/StatSMUR<bar>:OpenSession StatSMUR
+command! Anniversaire :cd ~/Sites/anniversaire<bar>:OpenSession anniversaire
 command! Fidelio :OpenSession Fidelio
 command! MonUrologue :OpenSession MonUrologue
 command! LldAdmin :OpenSession LldAdmin

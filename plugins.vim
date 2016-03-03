@@ -37,8 +37,8 @@ Plugin 'nelstrom/vim-markdown-folding'  " Folding for markdown
 Plugin 'Raimondi/delimitMate'           " Autoclose matching parenthesis..
 Plugin 'easymotion/vim-easymotion'      " Move to anyplace in the file
 Plugin 'ervandew/supertab'              " Tab completion
-
-
+Plugin 'lfilho/cosco.vim'               " Comma and semicolon insertion
+Plugin 'dhruvasagar/vim-table-mode'
 " ----- Snippets
 Plugin 'SirVer/ultisnips'
 "Plugin 'tomtom/tlib_vim'                " dependency to vim snippet manager
@@ -53,6 +53,10 @@ Plugin 'hail2u/vim-css3-syntax'         " CSS3 syntax support
 Plugin 'wavded/vim-stylus'              " Stylus support for vim
 Plugin 'elzr/vim-json'                  " JSON
 Plugin 'tpope/vim-dotenv'               " Dotenv support
+
+
+
+
 " ---- Themes
 Plugin 'kristijanhusak/vim-hybrid-material'         " Material theme
 
