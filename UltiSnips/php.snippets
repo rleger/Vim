@@ -134,7 +134,7 @@ endsnippet
 
 snippet foreign
 $table->integer('$1_id')->unsigned()->nullable();
-$table->foreign('$1_id')->references('id')->on('$1')${2:->onUpdate('cascade')}${3:->onDelete('cascade')};
+$table->foreign('$1_id')->references('id')->on('$1s')${2:->onUpdate('cascade')}${3:->onDelete('cascade')};
 endsnippet
 
 

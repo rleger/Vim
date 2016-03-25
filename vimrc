@@ -28,7 +28,8 @@ vmap <leader>su ! awk '{ print length(), $0 \| "sort -n \| cut-d\\ -f2-" }'<cr>
 
 set tabstop=4                   " a tab is four spaces
 set smarttab
-set tags+=tags,tags.vendors
+" set tags+=tags,tags.vendors
+set tags+=tags
 set softtabstop=4               " when hitting <BS>, pretend like a tab is removed, even if spaces
 set expandtab                   " expand tabs by default (overloadable per file type later)
 set shiftwidth=4                " number of spaces to use for autoindenting
@@ -88,7 +89,8 @@ endif
 "------------Custom filetypes ------------"
 " Putting it in autogroup doesn't work
 " Vue
-autocmd BufNewFile,BufRead *.vue set filetype=javascript | set filetype=html | set filetype=vue | :syntax sync fromstart
+" autocmd BufNewFile,BufRead *.vue set filetype=javascript | set filetype=html | set filetype=vue | :syntax sync fromstart
+autocmd BufNewFile,BufRead *.vue set filetype=html | :syntax sync fromstart
 ""autocmd BufNewFile,BufRead *.vue set ft=html | set ft=javacscript | set ft=vue
 
 " Blade
@@ -203,8 +205,9 @@ function! InitTags()
     if getcwd() == $HOME
         echoerr "You should not be generating tags for the home directory !!"
     else
-        execute ':silent! ! ctags -R --fields=+aimS --languages=php tags.vendors vendor' 
-        execute ':silent! ! ctags -R --fields=+aimS --languages=php --exclude=vendor --exclude=node_modules --exclude=public'
+        " execute ':silent! ! ctags -R --fields=+aimS --languages=php tags.vendors vendor' 
+        " execute ':silent! ! ctags -R --fields=+aimS --languages=php --exclude=vendor --exclude=node_modules --exclude=public'
+        execute ':silent! ! ctags -R --fields=+aimS --languages=php'
     endif
 endfunction
 
@@ -252,7 +255,7 @@ nmap <leader><leader>w <Plug>(easymotion-overwin-w)
 
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
                                          
 " If you want :UltiSnipsEdit to split your window.
 "let g:UltiSnipsEditSplit="vertical"
@@ -264,6 +267,14 @@ let g:ctrlp_custom_ignore= 'public\|node_modules\|DS_Store\|git'
 let g:ctrlp_match_window = 'order:ttb,min:1,max:10,results:10'
 let g:ctrlp_extension = ['buffertag']
 let g:ctrlp_working_path_mode = 'r'                         " Use the nearest .git directory as the cwd
+let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --hidden
+  \ --ignore .git
+  \ --ignore .DS_Store
+  \ --ignore vendor
+  \ --ignore node_modules
+  \ --ignore tmp
+  \ --ignore "**/*.pyc"
+  \ -g ""'
 
 " Easy bindings for its various modes
 nmap <leader>p :CtrlP<cr>
@@ -310,7 +321,7 @@ nnoremap <silent><leader>pf :w<bar>:call PhpCsFixerFixFile()<CR>
 "
 "Alerternative to php-cs-fixer plugin
 " let g:php_cs_fixer_enable_default_mapping = 0 " disable default mapping
-" nnoremap <silent><leader>pcf :w<bar>:! ~/.composer/vendor/bin/php-cs-fixer fix % --level=symfony --fixers=align_double_arrow<CR>
+nnoremap <silent><leader>pf :w<bar>:! ~/.composer/vendor/bin/php-cs-fixer fix % --level=symfony --fixers=align_double_arrow<CR>
 
 "
 "/ Dash integration
@@ -377,8 +388,8 @@ let g:multi_cursor_exit_from_insert_mode=0          " Don't exit when pressing <
 "
 "/ Airline (bottom statusbar)
 "
-"let g:airline_theme='solarized'
-let g:airline_theme = "hybrid"
+" let g:airline_theme='solarized'
+" let g:airline_theme = "hybrid"
 let g:airline_powerline_fonts=0                     " No powerline by default
 if has("gui_running")
     let g:airline_powerline_fonts=1                 " Powerline fonts on GUI
@@ -463,11 +474,12 @@ augroup END
 set background=dark
 colorscheme mod8
 " colorscheme hybrid_reverse
-" colorscheme hybrid_material
-"colorscheme earthsong 
-"colorscheme goldfish 
+colorscheme hybrid_material
+" colorscheme earthsong 
+" colorscheme goldfish 
 " colorscheme atom-dark
-"colorscheme Slate
+" colorscheme Slate
+" colorscheme Peacock
 set t_CO=256						" Use 256 teminal colors
 "set guifont=Operator_Mono:h15			
 set guifont=Fira_Code:h14			" Set font family and size
@@ -490,6 +502,7 @@ hi SignColumn guibg=bg
 hi LineNr guibg=bg guifg=#4F5B67
 " Matching parenthesis and such highlight
 hi MatchParen cterm=none guibg=#212D32 guifg=#1BADF8  
+
 
 
 
@@ -564,12 +577,13 @@ augroup END
 "------------Projects-shortcuts-----------"
 command! StatSMUR :cd ~/Sites/StatSMUR<bar>:OpenSession StatSMUR
 command! Anniversaire :cd ~/Sites/anniversaire<bar>:OpenSession anniversaire
-command! Fidelio :OpenSession Fidelio
+command! Fidelio :cd ~/Sites/Fidelio :OpenSession Fidelio
 command! MonUrologue :OpenSession MonUrologue
 command! LldAdmin :OpenSession LldAdmin
 command! LldFront :OpenSession LldFront
-command! TheseEJ :OpenSession TheseEJ
+command! TheseEJ :cd ~/Sites/TheseEJ :OpenSession TheseEJ
 command! MaCave :cd ~/Sites/MaCave<bar>:OpenSession MaCave
+command! Reservations :cd ~/Sites/Reservations<bar>:OpenSession Reservations
 
 "Without sessions
 "command! MonUrologue :cd ~/Sites/mon-urologue<bar>:CtrlP<cr>
@@ -610,6 +624,8 @@ hi clear SignColumn
 
 
 
+" let @d="I// ^[A //^[yyppkkV:s/./\//g^M, jjV:<80>ku^M, j"
+" nmap ,y @d
 
 " Add a new dependency to a PHP class
 function! AddDependency()
@@ -690,6 +706,10 @@ nmap ,2  :call AddDependency()<cr>
 " ,pcf Php cs fixer (file)
 " ,pcd Php cs fixer (directory)
 "
+"
+"
+"
+"---------------------
 "function! TextEnableCodeSnip(filetype,start,end,textSnipHl) abort
 "    let ft=toupper(a:filetype)
 "    let group='textGroup'.ft
