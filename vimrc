@@ -216,7 +216,7 @@ endfunction
 " You don't have to select them first
 " The cursor will return to the same place you left off.
 function! SortPhpUseByLength()
-    exec 'normal mrgg/usema/class/useNmb:nohlsearch:''a,''b! awk ''{ print length(), $0 | "sort -n | cut -d\\  -f2-" }''''r'
+    exec 'normal mrgg/^use\sma/^class\s/^use\sNmb:nohlsearch:''a,''b! awk ''{ print length(), $0 | "sort -n | cut -d\\  -f2-" }''''r'
 endfunction
 nmap <leader>su :call SortPhpUseByLength()<cr>
 
@@ -327,11 +327,11 @@ let g:php_cs_fixer_fixers_list = "align_double_arrow,linefeed,indentation"
 let g:php_cs_fixer_enable_default_mapping = 0     " Enable the mapping by default (<leader>pcd)
 
 "Remap default to save before running (avoid losing unsaved changes)
-nnoremap <silent><leader>pf :w<bar>:call PhpCsFixerFixFile()<CR>
+" nnoremap <silent><leader>pf :w<bar>:call PhpCsFixerFixFile()<CR>
 "
 "Alerternative to php-cs-fixer plugin
 " let g:php_cs_fixer_enable_default_mapping = 0 " disable default mapping
-nnoremap <silent><leader>pf :w<bar>:! ~/.composer/vendor/bin/php-cs-fixer fix % --level=symfony --fixers=align_double_arrow<CR>
+nnoremap <silent><leader>pf :w<bar>:call SortPhpUseByLength()<bar>:! ~/.composer/vendor/bin/php-cs-fixer fix % --level=symfony --fixers=align_double_arrow<CR>
 
 "
 "/ Dash integration
