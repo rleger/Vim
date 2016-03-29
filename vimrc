@@ -210,11 +210,21 @@ function! InitTags()
         execute ':silent! ! ctags -R --fields=+aimS --languages=php'
     endif
 endfunction
-
 :command! InitTags :call InitTags()
 
+" Sort PHP use statements by length
+" You don't have to select them first
+" The cursor will return to the same place you left off.
+function! SortPhpUseByLength()
+    exec 'normal mrgg/usema/class/useNmb:nohlsearch:''a,''b! awk ''{ print length(), $0 | "sort -n | cut -d\\  -f2-" }''''r'
+endfunction
+nmap <leader>su :call SortPhpUseByLength()<cr>
+
 " Auto-remove trailing spaces
-autocmd BufWritePre *.php :%s/\s\+$//e
+au BufWritePre *.php :%s/\s\+$//e
+
+" Regenerate tags file on save
+au BufWritePost *.php,*.js silent! !ctags -R --fields=+aimS --languages=php &
 
 "------------Plugins-----------"
 "/PHPfolding

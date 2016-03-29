@@ -1,6 +1,6 @@
 " ~/bin/dotfiles/vim/sessions/Fidelio.vim:
 " Vim session script.
-" Created by session.vim 2.13.1 on 09 mars 2016 at 08:16:02.
+" Created by session.vim 2.13.1 on 28 mars 2016 at 15:39:24.
 " Open this file in Vim and run :source % to restore your session.
 
 set guioptions=gm
@@ -14,29 +14,29 @@ if &cp | set nocp | endif
 let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
 let v:this_session=expand("<sfile>:p")
 silent only
-cd ~/Sites/Reservations
+cd ~/Sites/Fidelio
 if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
   let s:wipebuf = bufnr('%')
 endif
 set shortmess=aoO
-badd +42 ~/Sites/Fidelio/app/Http/routes.php
-badd +20 ~/Sites/Fidelio/composer.json
-badd +1 ~/Sites/Fidelio/bootstrap/app.php
-badd +1 ~/Sites/Fidelio/bootstrap/autoload.php
-badd +1 ~/Sites/Fidelio/resources/views/emails/password.blade.php
-badd +43 ~/Sites/Fidelio/resources/views/auth/login.blade.php
-badd +1 ~/Sites/Fidelio/artisan
-badd +1 ~/Sites/Fidelio/resources/views/errors/list.blade.php
-badd +0 ~/Sites/Fidelio/gulpfile.js
-badd +19 ~/Sites/Fidelio/app/Http/Controllers/Auth/PasswordController.php
+badd +11 .env.production
+badd +115 config/mail.php
+badd +21 config/services.php
+badd +35 app/Http/routes.php
+badd +62 app/Http/Controllers/RequestInformationController.php
+badd +16 app/Events/NewInformationRequest.php
+badd +24 app/Providers/EventServiceProvider.php
+badd +5 app/Handlers/Events/MailNewInformationRequest.php
+badd +36 app/Notifications/Mail/NotifyUser.php
+badd +0 config/app.php
 argglobal
 silent! argdel *
-edit ~/Sites/Fidelio/resources/views/auth/login.blade.php
+edit config/app.php
 set splitbelow splitright
 wincmd t
 set winheight=1 winwidth=1
 argglobal
-setlocal fdm=indent
+setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
 setlocal fdi=#
@@ -44,12 +44,13 @@ setlocal fdl=99
 setlocal fml=1
 setlocal fdn=20
 setlocal nofen
-let s:l = 35 - ((5 * winheight(0) + 11) / 22)
+silent! normal! zE
+let s:l = 30 - ((10 * winheight(0) + 9) / 19)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-35
-normal! 035|
+30
+normal! 0
 tabnext 1
 if exists('s:wipebuf')
 "   silent exe 'bwipe ' . s:wipebuf
