@@ -54,7 +54,8 @@ set norelativenumber        " Don't display cursor relative numbers
 "syntax sync minlines=250
 "syntax sync fromstart
 
-let g:enable_bold_font = 1      " Enable some font to be bolded
+" set macligatures                " Replace => and -> by symbols
+" let g:enable_bold_font = 1      " Enable some font to be bolded
 
 " Don't screw up folds when inserting text that might affect them, until
 " leaving insert mode. Foldmethod is local to the window. Protect against
@@ -320,18 +321,18 @@ nmap <leader>bq :Bclose<cr>
 "
 "/ PHP-CS-Fixer
 
-let g:php_cs_fixer_level = "psr2"              " which level ?
-let g:php_cs_fixer_config = "default"             " configuration
-let g:php_cs_fixer_php_path = "php"               " Path to PHP
-let g:php_cs_fixer_fixers_list = "align_double_arrow,linefeed,indentation"
-let g:php_cs_fixer_enable_default_mapping = 0     " Enable the mapping by default (<leader>pcd)
+" let g:php_cs_fixer_level = "psr2"              " which level ?
+" let g:php_cs_fixer_config = "default"             " configuration
+" let g:php_cs_fixer_php_path = "php"               " Path to PHP
+" let g:php_cs_fixer_fixers_list = "align_double_arrow,linefeed,indentation"
+" let g:php_cs_fixer_enable_default_mapping = 0     " Enable the mapping by default (<leader>pcd)
 
 "Remap default to save before running (avoid losing unsaved changes)
 " nnoremap <silent><leader>pf :w<bar>:call PhpCsFixerFixFile()<CR>
 "
 "Alerternative to php-cs-fixer plugin
 " let g:php_cs_fixer_enable_default_mapping = 0 " disable default mapping
-nnoremap <silent><leader>pf :w<bar>:call SortPhpUseByLength()<bar>:! ~/.composer/vendor/bin/php-cs-fixer fix % --level=symfony --fixers=align_double_arrow<CR>
+nnoremap <silent><leader>pf :w<bar>:call SortPhpUseByLength()<bar>:silent ! ~/.composer/vendor/bin/php-cs-fixer fix % --level=symfony --fixers=align_double_arrow<CR>
 
 "
 "/ Dash integration
@@ -430,14 +431,19 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+let g:syntastic_loc_list_height = 5                 " Error window line height
+let g:syntastic_php_checkers = ['php', 'phpmd']     " PHP checkers
+let g:syntastic_html_tidy_exec = '/usr/bin/tidy'    " Html checker
+let g:syntastic_html_tidy_ignore_errors = [ 
+    \ '<template> is not recognized!',
+    \'discarding unexpected <template>' 
+    \]
 
-" Turn automatic syntastic off until I figure it out
-"
+" Syntastic in active mode, ignore html (to ignore .vue files)
 let g:syntastic_mode_map = {
-            \ "mode": "passive",
-            \ "active_filetypes": [],
-            \ "passive_filetypes": ["puppet"] 
-            \}
+    \ "mode": "active",
+    \ "passive_filetypes": ["html"] 
+    \}
 
 "
 "/ Gitgutter
@@ -482,7 +488,8 @@ augroup END
 
 "------------Visual-----------"
 set background=dark
-colorscheme mod8
+" colorscheme mod8
+" colorscheme desert
 " colorscheme hybrid_reverse
 colorscheme hybrid_material
 " colorscheme earthsong 
