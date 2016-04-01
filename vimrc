@@ -13,23 +13,23 @@ set wildmenu                    " e.g. :e file<tab>
 set showcmd                     " Show the command (bottom right)
 set noswapfile                  " No swap files
 set backspace=indent,eol,start
+set tags+=tags,tags.vendors
 set showtabline=0               " Hide tab bar
 set nonumber                    " Be explicit about hiding line numbers
-set linespace=16				" Macvim specific lineheight
 set noshowmode                  " Hide the default mode text (e.g. -- INSERT -- below the statusline)
 set laststatus=2                " Always show the statusline
 set nowrap                      " don't wrap lines
 set autoread                    " Automatically reload changed file
 set autowriteall                " Automatically save file on buffer change
 set complete=.,w,b,u            " Autocomplete to buffers, splits, unloaded buffers
-vmap <leader>su ! awk '{ print length(), $0 \| "sort -n \| cut-d\\ -f2-" }'<cr>
 "set textwidth=80
 "set textwidth=0 wrapmargin=0
 
+" Ignore folders and files
+set wildignore+=*/vendor/**,node_modules/*,.DS_Store,tags,tags.*
+
 set tabstop=4                   " a tab is four spaces
 set smarttab
-" set tags+=tags,tags.vendors
-set tags+=tags
 set softtabstop=4               " when hitting <BS>, pretend like a tab is removed, even if spaces
 set expandtab                   " expand tabs by default (overloadable per file type later)
 set shiftwidth=4                " number of spaces to use for autoindenting
@@ -83,6 +83,8 @@ if has('unnamedplus')
   set clipboard=unnamed,unnamedplus
 endif
 
+"Load the current buffer in Chrome
+nmap ,c :!open -a Google\ Chrome<cr>
 
 
 
@@ -280,6 +282,7 @@ let g:ctrlp_extension = ['buffertag']
 let g:ctrlp_working_path_mode = 'r'                         " Use the nearest .git directory as the cwd
 let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --hidden
   \ --ignore .git
+  \ --ignore *.lock
   \ --ignore .DS_Store
   \ --ignore vendor
   \ --ignore node_modules
@@ -295,7 +298,7 @@ nmap <C-e> :CtrlPMRUFiles<cr>
 "
 "/ Buffergator
 "
-let g:buffergator_viewport_split_policy = 'R'               " Use the right side of the screen
+let g:buffergator_viewport_split_policy = 'R'                " Use the right side of the screen
 
 "nmap <leader>jj :BuffergatorMruCyclePrev<cr>                " Go to the previous buffer open
 "nmap <leader>kk :BuffergatorMruCycleNext<cr>                " Go to the next buffer open
@@ -332,7 +335,7 @@ nmap <leader>bq :Bclose<cr>
 "
 "Alerternative to php-cs-fixer plugin
 " let g:php_cs_fixer_enable_default_mapping = 0 " disable default mapping
-nnoremap <silent><leader>pf :w<bar>:call SortPhpUseByLength()<bar>:silent ! ~/.composer/vendor/bin/php-cs-fixer fix % --level=symfony --fixers=align_double_arrow<CR>
+nnoremap <silent><leader>pf :w<bar>:silent call SortPhpUseByLength()<bar>:silent ! ~/.composer/vendor/bin/php-cs-fixer fix % --level=symfony --fixers=align_double_arrow<CR>
 
 "
 "/ Dash integration
@@ -400,7 +403,7 @@ let g:multi_cursor_exit_from_insert_mode=0          " Don't exit when pressing <
 "/ Airline (bottom statusbar)
 "
 " let g:airline_theme='solarized'
-" let g:airline_theme = "hybrid"
+let g:airline_theme = "hybrid"
 let g:airline_powerline_fonts=0                     " No powerline by default
 if has("gui_running")
     let g:airline_powerline_fonts=1                 " Powerline fonts on GUI
@@ -432,7 +435,7 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_loc_list_height = 5                 " Error window line height
-let g:syntastic_php_checkers = ['php', 'phpmd']     " PHP checkers
+let g:syntastic_php_checkers = ['php']              " PHP checkers (php, phpmd, phpcs)
 let g:syntastic_html_tidy_exec = '/usr/bin/tidy'    " Html checker
 let g:syntastic_html_tidy_ignore_errors = [ 
     \ '<template> is not recognized!',
@@ -442,7 +445,7 @@ let g:syntastic_html_tidy_ignore_errors = [
 " Syntastic in active mode, ignore html (to ignore .vue files)
 let g:syntastic_mode_map = {
     \ "mode": "active",
-    \ "passive_filetypes": ["html"] 
+    \ "passive_filetypes": ["html", "vue"] 
     \}
 
 "
@@ -468,14 +471,6 @@ let NERDTreeHijackNetrw=1           " Replace Netrw by NerdTree
 let NERDTreeMinimalUI=1             " Set the UI to the minium
 let NERDTreeAutoDeleteBuffer=1      " Delete buffer after file rename or del
 let NERDTreeQuitOnOpen = 1          " Close on file opening
-"
-"/ PHP Insert Use
-"
-augroup autosourcing
-    autocmd!	
-    autocmd FileType php inoremap <Leader>u <Esc>:call IPhpInsertUse()<CR>
-    autocmd FileType php noremap <Leader>u :call phpinsertuse()<CR>
-augroup END
 
 "
 "/ PHP CS Fixer
@@ -498,8 +493,10 @@ colorscheme hybrid_material
 " colorscheme Slate
 " colorscheme Peacock
 set t_CO=256						" Use 256 teminal colors
+
 "set guifont=Operator_Mono:h15			
 set guifont=Fira_Code:h14			" Set font family and size
+set linespace=16				    " Macvim specific lineheight
 
 set guioptions-=l					" Remove scrollbars (left and right)
 set guioptions-=L
@@ -540,12 +537,6 @@ set splitright
 nmap vs :vsplit<cr>
 nmap sp :split<cr>
 
-"Remap vertical split navigation
-"nmap <C-J> <C-W><C-J>						
-"nmap <C-k> <C-W><C-K>
-"nmap <C-m> <C-W><C-H>
-"nmap <C-l> <C-W><C-L>
-
 "Mapping with alt to move between splits
 nmap <silent> È :wincmd k<CR>
 nmap <silent> Ï :wincmd j<CR>
@@ -564,14 +555,10 @@ nmap 75 :vertical resize 120<cr>
 
 "------------Auto-commands-----------"
 " Automatically source the vimrc file on save
-
 augroup autosourcing
     autocmd!	
     autocmd BufWritePost .vimrc source %
 augroup END
-
-" I don't want to pull up these folders/files when calling CtrlP
-set wildignore+=*/vendor/**,node_modules/*,.DS_Store,tags,tags.*
 
 " Powerline (Fancy thingy at bottom stuff)
 "let g:Powerline_symbols = 'fancy'
@@ -636,13 +623,13 @@ let g:session_persist_colors = 0        " Don't save color theme w session
 let g:session_persist_font = 0          " Don't save fonts
 
 
+
+
 " Required after theme load to clear gitgutter background
 hi clear SignColumn
 
 
 
-" let @d="I// ^[A //^[yyppkkV:s/./\//g^M, jjV:<80>ku^M, j"
-" nmap ,y @d
 
 " Add a new dependency to a PHP class
 function! AddDependency()
@@ -658,6 +645,10 @@ function! AddDependency()
     exec 'normal :%s/(, /(/g'
 endfunction
 nmap ,2  :call AddDependency()<cr>
+
+
+
+
 "-----------Notes----------"
 
 "
@@ -727,31 +718,31 @@ nmap ,2  :call AddDependency()<cr>
 "
 "
 "---------------------
-"function! TextEnableCodeSnip(filetype,start,end,textSnipHl) abort
-"    let ft=toupper(a:filetype)
-"    let group='textGroup'.ft
-"    if exists('b:current_syntax')
-"        let s:current_syntax=b:current_syntax
-"        " Remove current syntax definition, as some syntax files (e.g. cpp.vim)
-"        " do nothing if b:current_syntax is defined.
-"        unlet b:current_syntax
-"    endif
-"    execute 'syntax include @'.group.' syntax/'.a:filetype.'.vim'
-"    try
-"        execute 'syntax include @'.group.' after/syntax/'.a:filetype.'.vim'
-"    catch
-"    endtry
-"    if exists('s:current_syntax')
-"        let b:current_syntax=s:current_syntax
-"    else
-"        unlet b:current_syntax
-"    endif
-"    execute 'syntax region textSnip'.ft.'
-"                \ matchgroup='.a:textSnipHl.'
-"                \ start="'.a:start.'" end="'.a:end.'"
-"                \ contains=@'.group
-"endfunction
-"
-"call TextEnableCodeSnip('html', '<template>', '</template>', 'SpecialComment')
-"call TextEnableCodeSnip('javascript', '<script>', '</script>', 'SpecialComment')
+" function! TextEnableCodeSnip(filetype,start,end,textSnipHl) abort
+"     let ft=toupper(a:filetype)
+"     let group='textGroup'.ft
+"     if exists('b:current_syntax')
+"         let s:current_syntax=b:current_syntax
+"         " Remove current syntax definition, as some syntax files (e.g. cpp.vim)
+"         " do nothing if b:current_syntax is defined.
+"         unlet b:current_syntax
+"     endif
+"     execute 'syntax include @'.group.' syntax/'.a:filetype.'.vim'
+"     try
+"         execute 'syntax include @'.group.' after/syntax/'.a:filetype.'.vim'
+"     catch
+"     endtry
+"     if exists('s:current_syntax')
+"         let b:current_syntax=s:current_syntax
+"     else
+"         unlet b:current_syntax
+"     endif
+"     execute 'syntax region textSnip'.ft.'
+"                 \ matchgroup='.a:textSnipHl.'
+"                 \ start="'.a:start.'" end="'.a:end.'"
+"                 \ contains=@'.group
+" endfunction
+
+" call TextEnableCodeSnip('html', '<template>', '</template>', 'SpecialComment')
+" call TextEnableCodeSnip('javascript', '<script>', '</script>', 'SpecialComment')
 "
