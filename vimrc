@@ -8,6 +8,7 @@ if has("autocmd")
   filetype plugin indent on
 endif
 
+set fu                          " Start macvim fullscreen
 set wildmode=list:longest,full  " Show file suggestions on tab press
 set wildmenu                    " e.g. :e file<tab>
 set showcmd                     " Show the command (bottom right)
@@ -486,7 +487,8 @@ set background=dark
 " colorscheme mod8
 " colorscheme desert
 " colorscheme hybrid_reverse
-colorscheme hybrid_material
+" colorscheme facebook
+colorscheme material_green
 " colorscheme earthsong 
 " colorscheme goldfish 
 " colorscheme atom-dark
@@ -575,7 +577,14 @@ augroup vimrc_autocmd
 augroup END
 
 
-
+" Show syntax highlighting groups for word under cursor
+nmap <leader>sp :call <SID>SynStack()<CR>
+function! <SID>SynStack()
+  if !exists("*synstack")
+    return
+  endif
+  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunc
 
 
 "------------Projects-shortcuts-----------"
