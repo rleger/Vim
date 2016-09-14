@@ -1,6 +1,6 @@
 " ~/bin/dotfiles/vim/sessions/LldFront.vim:
 " Vim session script.
-" Created by session.vim 2.13.1 on 25 février 2016 at 14:14:33.
+" Created by session.vim 2.13.1 on 30 mai 2016 at 18:33:40.
 " Open this file in Vim and run :source % to restore your session.
 
 set guioptions=gm
@@ -19,19 +19,15 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
   let s:wipebuf = bufnr('%')
 endif
 set shortmess=aoO
-badd +12 bootstrap/app.php
-badd +10 composer.json
-badd +118 config/app.php
-badd +17 app/Http/routes.php
-badd +3 composer.lock
+badd +16 app/Http/routes.php
 argglobal
 silent! argdel *
-edit config/app.php
+edit app/Http/routes.php
 set splitbelow splitright
 wincmd t
 set winheight=1 winwidth=1
 argglobal
-setlocal fdm=manual
+setlocal fdm=indent
 setlocal fde=0
 setlocal fmr={{{,}}}
 setlocal fdi=#
@@ -39,14 +35,12 @@ setlocal fdl=99
 setlocal fml=1
 setlocal fdn=20
 setlocal nofen
-silent! normal! zE
-let s:l = 100 - ((9 * winheight(0) + 9) / 19)
+let s:l = 20 - ((19 * winheight(0) + 17) / 34)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-100
-normal! 027|
-lcd ~/Sites/lld-front
+20
+normal! 049|
 tabnext 1
 if exists('s:wipebuf')
 "   silent exe 'bwipe ' . s:wipebuf

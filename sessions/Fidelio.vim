@@ -1,6 +1,6 @@
 " ~/bin/dotfiles/vim/sessions/Fidelio.vim:
 " Vim session script.
-" Created by session.vim 2.13.1 on 28 mars 2016 at 15:39:24.
+" Created by session.vim 2.13.1 on 30 mai 2016 at 18:30:46.
 " Open this file in Vim and run :source % to restore your session.
 
 set guioptions=gm
@@ -19,23 +19,13 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
   let s:wipebuf = bufnr('%')
 endif
 set shortmess=aoO
-badd +11 .env.production
-badd +115 config/mail.php
-badd +21 config/services.php
-badd +35 app/Http/routes.php
-badd +62 app/Http/Controllers/RequestInformationController.php
-badd +16 app/Events/NewInformationRequest.php
-badd +24 app/Providers/EventServiceProvider.php
-badd +5 app/Handlers/Events/MailNewInformationRequest.php
-badd +36 app/Notifications/Mail/NotifyUser.php
-badd +0 config/app.php
 argglobal
 silent! argdel *
-edit config/app.php
 set splitbelow splitright
 wincmd t
 set winheight=1 winwidth=1
 argglobal
+enew
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -44,13 +34,6 @@ setlocal fdl=99
 setlocal fml=1
 setlocal fdn=20
 setlocal nofen
-silent! normal! zE
-let s:l = 30 - ((10 * winheight(0) + 9) / 19)
-if s:l < 1 | let s:l = 1 | endif
-exe s:l
-normal! zt
-30
-normal! 0
 tabnext 1
 if exists('s:wipebuf')
 "   silent exe 'bwipe ' . s:wipebuf

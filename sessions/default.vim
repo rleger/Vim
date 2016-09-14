@@ -1,6 +1,6 @@
 " ~/bin/dotfiles/vim/sessions/default.vim:
 " Vim session script.
-" Created by session.vim 2.13.1 on 16 février 2016 at 10:25:27.
+" Created by session.vim 2.13.1 on 30 mai 2016 at 16:55:33.
 " Open this file in Vim and run :source % to restore your session.
 
 set guioptions=gm
@@ -14,33 +14,71 @@ if &cp | set nocp | endif
 let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
 let v:this_session=expand("<sfile>:p")
 silent only
-cd ~/
+cd ~/Sites/pingme
 if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
   let s:wipebuf = bufnr('%')
 endif
 set shortmess=aoO
-badd +0 ~/.vimrc
+badd +11 database/migrations/2016_04_26_222532_create_websites_table.php
+badd +5 app/Http/routes.php
+badd +22 app/Http/Controllers/HomeController.php
+badd +1 app/Http/Controllers/WebsitesController.php
+badd +15 resources/assets/js/components/bootstrap.js
+badd +7 resources/assets/js/components/home.js
+badd +1 app/Http/Controllers/WelcomeController.php
+badd +1 \'/Users/romainleger/Sites/pingme/resources/views/websites/index.blade.php\'
+badd +10 resources/views/websites/show.blade.php
+badd +16 resources/views/websites/index.blade.php
+badd +9 resources/assets/js/components/websites/show.js
 argglobal
 silent! argdel *
-edit ~/.vimrc
+edit app/Http/Controllers/WebsitesController.php
 set splitbelow splitright
+wincmd _ | wincmd |
+vsplit
+1wincmd h
+wincmd w
 wincmd t
 set winheight=1 winwidth=1
+exe 'vert 1resize ' . ((&columns * 119 + 119) / 239)
+exe 'vert 2resize ' . ((&columns * 119 + 119) / 239)
 argglobal
-setlocal fdm=indent
+setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
 setlocal fdi=#
-setlocal fdl=20
+setlocal fdl=99
 setlocal fml=1
 setlocal fdn=20
 setlocal nofen
-let s:l = 430 - ((5 * winheight(0) + 9) / 19)
+silent! normal! zE
+let s:l = 36 - ((21 * winheight(0) + 17) / 34)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-430
-normal! 014|
+36
+normal! 09|
+wincmd w
+argglobal
+edit resources/views/websites/show.blade.php
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=99
+setlocal fml=1
+setlocal fdn=20
+setlocal nofen
+silent! normal! zE
+let s:l = 10 - ((9 * winheight(0) + 17) / 34)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+10
+normal! 032|
+wincmd w
+exe 'vert 1resize ' . ((&columns * 119 + 119) / 239)
+exe 'vert 2resize ' . ((&columns * 119 + 119) / 239)
 tabnext 1
 if exists('s:wipebuf')
 "   silent exe 'bwipe ' . s:wipebuf

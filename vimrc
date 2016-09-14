@@ -8,7 +8,9 @@ if has("autocmd")
   filetype plugin indent on
 endif
 
-set fu                          " Start macvim fullscreen
+if has("gui_running")
+    set fu                          " Start macvim fullscreen
+endif
 set wildmode=list:longest,full  " Show file suggestions on tab press
 set wildmenu                    " e.g. :e file<tab>
 set showcmd                     " Show the command (bottom right)
@@ -87,7 +89,8 @@ endif
 "Load the current buffer in Chrome
 nmap ,c :!open -a Google\ Chrome<cr>
 
-
+" Clean stylus (remove : and ;)
+nmap <leader>sc :silent %S/: / /g<bar>%S/;//g<cr>
 
 
 "------------Custom filetypes ------------"
@@ -211,7 +214,7 @@ function! InitTags()
     else
         " execute ':silent! ! ctags -R --fields=+aimS --languages=php tags.vendors vendor' 
         " execute ':silent! ! ctags -R --fields=+aimS --languages=php --exclude=vendor --exclude=node_modules --exclude=public'
-        execute ':silent! ! ctags -R --fields=+aimS --languages=php'
+        execute ':silent! ! rm tags|! ctags -R --fields=+aimS --languages=php &'
     endif
 endfunction
 :command! InitTags :call InitTags()
@@ -228,7 +231,8 @@ nmap <leader>su :call SortPhpUseByLength()<cr>
 au BufWritePre *.php :%s/\s\+$//e
 
 " Regenerate tags file on save
-au BufWritePost *.php,*.js silent! !ctags -R --fields=+aimS --languages=php &
+au BufWritePost *.php,*.js silent! ctags -R --fields=+aimS --languages=php &
+" au BufWritePost *.php,*.js :silent! call InitTags()
 
 "------------Plugins-----------"
 "/PHPfolding
@@ -256,7 +260,6 @@ nmap <leader><leader>f <Plug>(easymotion-overwin-f)
 "/Table Mode
 let g:table_mode_corner="|"
 
-
 " Move to line
 map <leader><leader>L <Plug>(easymotion-bd-jk)
 nmap <leader><leader>L <Plug>(easymotion-overwin-line)
@@ -266,7 +269,6 @@ map  <leader><leader>w <Plug>(easymotion-bd-w)
 nmap <leader><leader>w <Plug>(easymotion-overwin-w)
 "
 "/UltiSnip
-
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
@@ -291,10 +293,31 @@ let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --hidden
   \ --ignore "**/*.pyc"
   \ -g ""'
 
+" CtrlP auto cache clearing.
+" ----------------------------------------------------------------------------
+function! SetupCtrlP()
+  if exists("g:loaded_ctrlp") && g:loaded_ctrlp
+    augroup CtrlPExtension
+      autocmd!
+      autocmd FocusGained  * CtrlPClearCache
+      autocmd BufWritePost * CtrlPClearCache
+    augroup END
+  endif
+endfunction
+" if has("autocmd")
+"   autocmd VimEnter * :call SetupCtrlP()
+" endif
+
+
 " Easy bindings for its various modes
 nmap <leader>p :CtrlP<cr>
 nmap <C-r> :CtrlPBufTag<cr>
 nmap <C-e> :CtrlPMRUFiles<cr>
+
+"/ Vim Markdown
+"
+let g:vim_markdown_toc_autofit = 1 " Enable TOC window autofit
+
 
 "
 "/ Buffergator
@@ -446,7 +469,7 @@ let g:syntastic_html_tidy_ignore_errors = [
 " Syntastic in active mode, ignore html (to ignore .vue files)
 let g:syntastic_mode_map = {
     \ "mode": "active",
-    \ "passive_filetypes": ["html", "vue"] 
+    \ "passive_filetypes": ["html", "vue", "javascript"] 
     \}
 
 "
@@ -484,11 +507,11 @@ let NERDTreeQuitOnOpen = 1          " Close on file opening
 
 "------------Visual-----------"
 set background=dark
-" colorscheme mod8
+colorscheme mod8
 " colorscheme desert
 " colorscheme hybrid_reverse
 " colorscheme facebook
-colorscheme material_green
+" colorscheme material_green
 " colorscheme earthsong 
 " colorscheme goldfish 
 " colorscheme atom-dark

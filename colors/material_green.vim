@@ -90,7 +90,7 @@ if has("gui_running") || ($NVIM_TUI_ENABLE_TRUE_COLOR && has("nvim"))
   let s:comment    = "#7E87A3"
   let s:red        = "#cc6666"
   let s:orange     = "#de935f"
-  let s:yellow     = "#C4AF87"
+  let s:yellow     = "#D2C7A8"
   let s:green      = "#91B39D"
   let s:aqua       = "#8abeb7"
   let s:blue       = "#81a2be"
